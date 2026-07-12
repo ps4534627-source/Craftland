@@ -3,498 +3,239 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Admin Panel — Craftland Map Library</title>
-<meta name="robots" content="noindex, nofollow">
+<title>Craftland Map Library — Free Fire Custom Maps</title>
+<meta name="description" content="Browse, search and copy the best Free Fire Craftland map codes — updated live.">
+<meta name="theme-color" content="#0a0e14">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+
 <style>
+/* ============================================================
+   DESIGN TOKENS — "Tactical Ember" theme
+   ============================================================ */
 :root {
-  --void: #0a0e14; --surface-0: #10141c; --surface-1: #161b25; --surface-2: #1d2430; --surface-3: #232b39;
-  --glass-fill: rgba(255,255,255,0.045); --glass-fill-strong: rgba(255,255,255,0.085);
-  --glass-border: rgba(255,255,255,0.09); --glass-border-strong: rgba(255,255,255,0.17);
+  --void: #0a0e14; --surface-0: #10141c; --surface-1: #161b25; --surface-2: #1c222e;
+  --glass-fill: rgba(255,255,255,0.045); --glass-fill-strong: rgba(255,255,255,0.08);
+  --glass-border: rgba(255,255,255,0.09); --glass-border-strong: rgba(255,255,255,0.16);
   --ember: #ff6a3d; --ember-deep: #ff3d1a; --ember-soft: rgba(255,106,61,0.16);
-  --cyan: #00e5cc; --cyan-soft: rgba(0,229,204,0.14); --gold: #ffc857; --gold-soft: rgba(255,200,87,.14);
-  --danger: #ff4d6a; --danger-soft: rgba(255,77,106,.14); --success: #37e08a; --success-soft: rgba(55,224,138,.14);
+  --cyan: #00e5cc; --cyan-soft: rgba(0,229,204,0.14); --gold: #ffc857;
+  --danger: #ff4d6a; --success: #37e08a;
   --text-hi: #f3f5f8; --text-mid: #b7bec9; --text-low: #7d879a; --text-ghost: #4c5566;
   --grad-ember: linear-gradient(135deg, var(--ember) 0%, var(--ember-deep) 100%);
   --grad-cyan: linear-gradient(135deg, #00e5cc 0%, #00a8ff 100%);
-  --grad-hero: radial-gradient(120% 100% at 15% -10%, rgba(255,106,61,0.14) 0%, rgba(10,14,20,0) 55%),
-               radial-gradient(90% 70% at 100% 0%, rgba(0,229,204,0.10) 0%, rgba(10,14,20,0) 55%);
+  --grad-hero: radial-gradient(120% 120% at 50% -10%, rgba(255,106,61,0.16) 0%, rgba(10,14,20,0) 55%);
   --font-display: "Chakra Petch", sans-serif; --font-body: "Inter", -apple-system, sans-serif; --font-mono: "JetBrains Mono", ui-monospace, monospace;
-  --fs-xs: .75rem; --fs-sm: .8375rem; --fs-base: .9375rem; --fs-md: 1.05rem; --fs-lg: 1.25rem; --fs-xl: 1.6rem; --fs-2xl: 2.1rem;
+  --fs-xs: .75rem; --fs-sm: .8375rem; --fs-base: .9375rem; --fs-md: 1.05rem; --fs-lg: 1.25rem; --fs-xl: 1.6rem; --fs-2xl: 2.1rem; --fs-3xl: 2.75rem;
   --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 28px; --sp-7: 40px; --sp-8: 56px;
   --r-sm: 10px; --r-md: 16px; --r-lg: 22px; --r-xl: 28px; --r-pill: 999px;
   --shadow-card: 0 8px 30px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.03) inset;
   --shadow-float: 0 16px 44px rgba(0,0,0,.45);
   --shadow-ember-glow: 0 0 0 1px rgba(255,106,61,.35), 0 8px 24px rgba(255,106,61,.18);
-  --shadow-cyan-glow: 0 0 0 1px rgba(0,229,204,.35), 0 8px 24px rgba(0,229,204,.16);
   --ease-out: cubic-bezier(.16,1,.3,1); --ease-spring: cubic-bezier(.34,1.56,.64,1);
   --dur-fast: 150ms; --dur-base: 260ms; --dur-slow: 420ms;
+  --header-h: 64px; --max-w: 1240px;
 }
-@media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.001ms!important; transition-duration:.001ms!important; } }
-* { box-sizing: border-box; margin:0; padding:0; }
-html { -webkit-tap-highlight-color: transparent; }
-body { background: var(--void); color: var(--text-hi); font-family: var(--font-body); font-size: var(--fs-base); min-height:100vh; overflow-x:hidden; }
-body::before { content:""; position:fixed; inset:0; z-index:-2;
-  background-image: radial-gradient(1px 1px at 22% 28%, rgba(255,255,255,.05) 1px, transparent 1px),
-                     radial-gradient(1px 1px at 68% 62%, rgba(255,255,255,.045) 1px, transparent 1px),
-                     linear-gradient(var(--void), var(--void));
-  background-size: 150px 150px, 190px 190px, 100% 100%; }
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.001ms!important; transition-duration:.001ms!important; scroll-behavior:auto!important; } }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+body { background: var(--void); color: var(--text-hi); font-family: var(--font-body); font-size: var(--fs-base); line-height: 1.5; min-height: 100vh; overflow-x: hidden; }
+body::before { content:""; position:fixed; inset:0; z-index:-2; background-image: radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.06) 1px, transparent 1px), radial-gradient(1px 1px at 70% 65%, rgba(255,255,255,.05) 1px, transparent 1px), radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,.045) 1px, transparent 1px), linear-gradient(var(--void), var(--void)); background-size: 140px 140px, 180px 180px, 160px 160px, 100% 100%; }
 body::after { content:""; position:fixed; inset:0; z-index:-1; background: var(--grad-hero); pointer-events:none; }
-button { font-family: inherit; cursor:pointer; }
-img { max-width:100%; display:block; }
-::selection { background: var(--ember-soft); color: var(--text-hi); }
+img { max-width: 100%; display: block; }
+button { font-family: inherit; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--sp-4); }
 
-::-webkit-scrollbar { width:8px; height:8px; }
-::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: var(--r-pill); }
-::-webkit-scrollbar-track { background: transparent; }
+/* Header */
+.site-header { position: fixed; top:0; left:0; right:0; z-index:100; height: var(--header-h); display:flex; align-items:center; background: rgba(16,20,28,.6); backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%); border-bottom: 1px solid var(--glass-border); }
+.site-header .container { display:flex; align-items:center; justify-content:space-between; width:100%; }
+.brand { display:flex; align-items:center; gap: var(--sp-3); }
+.brand-mark { width:38px; height:38px; border-radius: var(--r-sm); background: var(--grad-ember); display:flex; align-items:center; justify-content:center; box-shadow: var(--shadow-ember-glow); flex-shrink:0; overflow:hidden; }
+.brand-mark svg { width:20px; height:20px; }
+.brand-mark img { width:100%; height:100%; object-fit:cover; }
+.brand-text { display:flex; flex-direction:column; line-height:1.15; }
+.brand-name { font-family: var(--font-display); font-weight:600; font-size: var(--fs-md); letter-spacing:.02em; }
+.brand-tag { font-size:10px; color: var(--text-low); letter-spacing:.12em; text-transform:uppercase; }
+.header-social { display:flex; align-items:center; gap: var(--sp-2); }
+.social-btn { width:38px; height:38px; border-radius: var(--r-sm); display:flex; align-items:center; justify-content:center; background: var(--glass-fill); border:1px solid var(--glass-border); color: var(--text-mid); transition: all var(--dur-base) var(--ease-out); }
+.social-btn svg { width:18px; height:18px; }
+.social-btn:hover { color: var(--text-hi); border-color: var(--glass-border-strong); background: var(--glass-fill-strong); transform: translateY(-2px); }
 
-.login-screen { min-height:100vh; display:flex; align-items:center; justify-content:center; padding: var(--sp-4); position:relative; }
-.login-glow { position:absolute; width:480px; height:480px; border-radius:50%; background: radial-gradient(circle, rgba(255,106,61,.14) 0%, transparent 70%); top:-140px; left:-140px; pointer-events:none; filter: blur(10px); }
-.login-glow.two { background: radial-gradient(circle, rgba(0,229,204,.11) 0%, transparent 70%); top:auto; left:auto; bottom:-160px; right:-160px; }
-.login-card { position:relative; width:100%; max-width:400px; background: var(--glass-fill); border:1px solid var(--glass-border); border-radius: var(--r-xl); padding: var(--sp-7) var(--sp-6); backdrop-filter: blur(24px); box-shadow: var(--shadow-float); animation: card-in var(--dur-slow) var(--ease-out) both; }
-@keyframes card-in { from{opacity:0; transform: translateY(18px) scale(.98);} to{opacity:1; transform:translateY(0) scale(1);} }
-.login-mark { width:56px; height:56px; margin:0 auto var(--sp-4); border-radius: var(--r-md); background: var(--grad-ember); display:flex; align-items:center; justify-content:center; box-shadow: var(--shadow-ember-glow); }
-.login-mark svg { width:28px; height:28px; }
-.login-card h1 { font-family: var(--font-display); text-align:center; font-size: var(--fs-lg); font-weight:600; margin-bottom:4px; letter-spacing:.01em; }
-.login-card .sub { text-align:center; color: var(--text-low); font-size: var(--fs-sm); margin-bottom: var(--sp-6); }
-.field { margin-bottom: var(--sp-4); }
-.field label { display:flex; align-items:center; gap:6px; font-size: var(--fs-xs); color: var(--text-mid); margin-bottom:7px; font-weight:600; letter-spacing:.02em; }
-.field .req-dot { width:4px; height:4px; border-radius:50%; background: var(--ember); }
-.field input, .field textarea, .field select {
-  width:100%; background: var(--surface-0); border:1px solid var(--glass-border); border-radius: var(--r-sm);
-  padding:12px 14px; color: var(--text-hi); font-size: var(--fs-base); font-family: inherit; outline:none;
-  transition: border-color var(--dur-base), box-shadow var(--dur-base), background var(--dur-base);
-}
-.field input:hover, .field textarea:hover, .field select:hover { border-color: var(--glass-border-strong); }
-.field input:focus, .field textarea:focus, .field select:focus { border-color: rgba(255,106,61,.55); box-shadow: 0 0 0 3px rgba(255,106,61,.14); background: var(--surface-1); }
-.field textarea { resize:vertical; min-height:88px; line-height:1.5; }
-.field select { appearance:none; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237d879a' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>"); background-repeat:no-repeat; background-position: right 12px center; background-size:16px; padding-right:36px; }
-.field-hint { font-size:11.5px; color: var(--text-ghost); margin-top:6px; line-height:1.5; }
-.field-hint a { color: var(--cyan); text-decoration: underline; text-underline-offset:2px; }
-.field-error { font-size:11px; color: var(--danger); margin-top:6px; display:none; }
-.field.invalid input, .field.invalid textarea, .field.invalid select { border-color: var(--danger); }
-.field.invalid .field-error { display:block; }
-
-.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; border:none; border-radius: var(--r-sm); padding:12px 18px; font-weight:700; font-size: var(--fs-sm); letter-spacing:.01em; transition: transform var(--dur-fast) var(--ease-spring), box-shadow var(--dur-base), opacity var(--dur-base), background var(--dur-base); position:relative; overflow:hidden; }
-.btn svg { width:15px; height:15px; flex-shrink:0; }
-.btn:active { transform: scale(.96); }
-.btn-primary { background: var(--grad-ember); color:#200a03; width:100%; }
-.btn-primary:hover { box-shadow: var(--shadow-ember-glow); }
-.btn-secondary { background: var(--glass-fill); color: var(--text-hi); border:1px solid var(--glass-border-strong); }
-.btn-secondary:hover { background: var(--glass-fill-strong); }
-.btn-danger { background: var(--danger-soft); color: var(--danger); border:1px solid rgba(255,77,106,.35); }
-.btn-danger:hover { background: rgba(255,77,106,.24); }
-.btn-cyan { background: var(--grad-cyan); color:#04241f; }
-.btn-cyan:hover { box-shadow: var(--shadow-cyan-glow); }
-.btn-sm { padding:9px 14px; font-size: var(--fs-xs); }
-.btn:disabled { opacity:.5; pointer-events:none; }
-.btn .spinner { width:14px; height:14px; border-radius:50%; border:2px solid rgba(0,0,0,.25); border-top-color: currentColor; animation: spin .7s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-.login-error { display:flex; align-items:center; gap:8px; background: var(--danger-soft); border:1px solid rgba(255,77,106,.35); color: var(--danger); font-size: var(--fs-xs); padding:11px 13px; border-radius: var(--r-sm); margin-bottom: var(--sp-4); animation: shake .35s var(--ease-out); }
-.login-error svg { width:15px; height:15px; flex-shrink:0; }
-.login-error:not(.show) { display:none; }
-@keyframes shake { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-5px);} 75%{transform:translateX(5px);} }
-
-.login-demo-note { margin-top: var(--sp-5); font-size:11.5px; color: var(--text-ghost); text-align:center; line-height:1.7; padding-top: var(--sp-4); border-top:1px solid var(--glass-border); }
-.login-demo-note b { color: var(--text-low); }
-.login-demo-note code { background: var(--surface-0); padding:2px 6px; border-radius:5px; color: var(--cyan); font-family: var(--font-mono); }
-
-.admin-app { display:none; min-height:100vh; }
-.admin-app.active { display:block; animation: app-in .4s var(--ease-out); }
-@keyframes app-in { from { opacity:0; } to { opacity:1; } }
-
-.admin-topbar { position:sticky; top:0; z-index:50; background: rgba(16,20,28,.72); backdrop-filter: blur(22px) saturate(160%); -webkit-backdrop-filter: blur(22px) saturate(160%); border-bottom:1px solid var(--glass-border); padding: var(--sp-3) var(--sp-4); display:flex; align-items:center; justify-content:space-between; gap: var(--sp-3); }
-.brand-mini { display:flex; align-items:center; gap:11px; }
-.brand-mini .dot-mark { width:32px; height:32px; border-radius:9px; background: var(--grad-ember); flex-shrink:0; box-shadow: var(--shadow-ember-glow); position:relative; }
-.brand-mini .dot-mark::after { content:""; position:absolute; inset:0; border-radius:9px; background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.35), transparent 60%); }
-.brand-mini .brand-copy { display:flex; flex-direction:column; line-height:1.15; }
-.brand-mini .brand-copy .name { font-family: var(--font-display); font-weight:600; font-size: var(--fs-sm); }
-.brand-mini .brand-copy .tag { font-size:9.5px; color: var(--text-ghost); letter-spacing:.1em; text-transform:uppercase; }
-
-.topbar-right { display:flex; align-items:center; gap:10px; }
-.user-chip { display:flex; align-items:center; gap:8px; background: var(--glass-fill); border:1px solid var(--glass-border); border-radius: var(--r-pill); padding:5px 12px 5px 5px; }
-.user-chip .avatar { width:24px; height:24px; border-radius:50%; background: var(--grad-cyan); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#04241f; flex-shrink:0; }
-.user-chip .user-email { font-size:11.5px; color: var(--text-mid); max-width:130px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.live-indicator { display:flex; align-items:center; gap:5px; font-size:10px; color: var(--success); font-family: var(--font-mono); letter-spacing:.04em; }
-.live-indicator .lp-dot { width:6px; height:6px; border-radius:50%; background: var(--success); box-shadow:0 0 6px var(--success); animation: pulse-dot 1.6s ease-in-out infinite; }
+/* Search */
+.search-zone { padding: calc(var(--header-h) + var(--sp-6)) 0 var(--sp-4); }
+.eyebrow { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--cyan); letter-spacing:.14em; text-transform:uppercase; display:flex; align-items:center; gap: var(--sp-2); margin-bottom: var(--sp-2); }
+.eyebrow .dot { width:6px; height:6px; border-radius:50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); animation: pulse-dot 1.8s ease-in-out infinite; }
 @keyframes pulse-dot { 0%,100%{opacity:1; transform:scale(1);} 50%{opacity:.4; transform:scale(.7);} }
+.search-zone h1 { font-family: var(--font-display); font-size: var(--fs-2xl); font-weight:600; letter-spacing:.01em; margin-bottom: var(--sp-4); }
+.search-zone h1 span { color: var(--ember); }
+.search-bar { position:relative; display:flex; align-items:center; gap: var(--sp-3); background: var(--glass-fill); border:1px solid var(--glass-border); border-radius: var(--r-lg); padding: var(--sp-3) var(--sp-4); backdrop-filter: blur(16px); transition: border-color var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out); }
+.search-bar:focus-within { border-color: rgba(255,106,61,.5); box-shadow: var(--shadow-ember-glow); }
+.search-bar svg.icon-search { width:20px; height:20px; color: var(--text-low); flex-shrink:0; }
+.search-bar input { flex:1; background:transparent; border:none; outline:none; color: var(--text-hi); font-size: var(--fs-base); font-family: var(--font-body); }
+.search-bar input::placeholder { color: var(--text-ghost); }
+.search-clear { display:none; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background: var(--glass-fill-strong); color: var(--text-mid); border:none; flex-shrink:0; }
+.search-clear.visible { display:flex; }
+.search-clear svg { width:13px; height:13px; }
+.result-meta { margin-top: var(--sp-3); font-size: var(--fs-xs); color: var(--text-low); font-family: var(--font-mono); display:flex; align-items:center; gap:8px; }
+.result-meta strong { color: var(--text-mid); }
+.live-pill { display:inline-flex; align-items:center; gap:5px; color: var(--success); }
+.live-pill .lp-dot { width:6px; height:6px; border-radius:50%; background: var(--success); box-shadow:0 0 6px var(--success); animation: pulse-dot 1.6s ease-in-out infinite; }
 
-.admin-tabs { display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; padding: var(--sp-3) var(--sp-4) 0; max-width:1100px; margin:0 auto; }
-.admin-tabs::-webkit-scrollbar{display:none;}
-.admin-tab { flex-shrink:0; background:transparent; border:1px solid transparent; color: var(--text-low); font-weight:600; font-size: var(--fs-sm); padding:10px 16px; border-radius: var(--r-sm); display:flex; align-items:center; gap:8px; transition: all var(--dur-base); }
-.admin-tab svg { width:15px; height:15px; }
-.admin-tab.active { background: var(--glass-fill-strong); color: var(--text-hi); border-color: var(--glass-border-strong); box-shadow: 0 4px 14px rgba(0,0,0,.25); }
-.admin-tab:hover:not(.active) { color: var(--text-mid); background: var(--glass-fill); }
-.admin-tab .tab-count { font-family: var(--font-mono); font-size:10px; background: var(--surface-2); padding:2px 6px; border-radius: var(--r-pill); color: var(--text-low); }
-.admin-tab.active .tab-count { background: rgba(0,0,0,.2); color: inherit; }
+/* Filters */
+.filter-bar-wrap { padding: var(--sp-3) 0 var(--sp-5); position: sticky; top: var(--header-h); z-index:40; background: linear-gradient(to bottom, var(--void) 60%, transparent); }
+.filter-bar { display:flex; gap: var(--sp-2); overflow-x:auto; scroll-behavior:smooth; padding: 2px var(--sp-4); scrollbar-width:none; }
+.filter-bar::-webkit-scrollbar { display:none; }
+.chip { flex-shrink:0; display:inline-flex; align-items:center; gap:6px; padding:9px 16px; border-radius: var(--r-pill); background: var(--glass-fill); border:1px solid var(--glass-border); color: var(--text-mid); font-size: var(--fs-sm); font-weight:500; white-space:nowrap; transition: all var(--dur-base) var(--ease-out); }
+.chip .chip-dot { width:5px; height:5px; border-radius:50%; background: currentColor; opacity:.6; }
+.chip:hover { border-color: var(--glass-border-strong); color: var(--text-hi); transform: translateY(-1px); }
+.chip.active { background: var(--grad-ember); border-color:transparent; color:#1a0a04; font-weight:600; box-shadow: var(--shadow-ember-glow); }
+.chip.active .chip-dot { opacity:1; }
 
-.admin-main { padding: var(--sp-5) var(--sp-4) var(--sp-8); max-width:1100px; margin:0 auto; }
-.admin-panel { display:none; }
-.admin-panel.active { display:block; animation: fade-up var(--dur-slow) var(--ease-out) both; }
-@keyframes fade-up { from{opacity:0; transform: translateY(10px);} to{opacity:1; transform:translateY(0);} }
+/* Grid + cards */
+.map-section { padding-bottom: var(--sp-8); }
+.map-grid { display:grid; grid-template-columns: 1fr; gap: var(--sp-5); }
+@media (min-width:640px){ .map-grid{ grid-template-columns: repeat(2,1fr);} }
+@media (min-width:1024px){ .map-grid{ grid-template-columns: repeat(3,1fr);} }
+.map-card { position:relative; background: var(--surface-1); border:1px solid var(--glass-border); border-radius: var(--r-lg); overflow:hidden; box-shadow: var(--shadow-card); transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out); animation: card-in var(--dur-slow) var(--ease-out) both; }
+.map-card:hover { transform: translateY(-4px); border-color: var(--glass-border-strong); box-shadow: var(--shadow-float); }
+@keyframes card-in { from{opacity:0; transform: translateY(14px) scale(.98);} to{opacity:1; transform:translateY(0) scale(1);} }
+.map-card .corner { position:absolute; width:16px; height:16px; border-color: var(--cyan); opacity:0; transition: opacity var(--dur-base) var(--ease-out); z-index:5; pointer-events:none; }
+.map-card:hover .corner { opacity:.85; }
+.corner.tl{top:8px;left:8px;border-top:2px solid;border-left:2px solid;border-radius:4px 0 0 0;}
+.corner.tr{top:8px;right:8px;border-top:2px solid;border-right:2px solid;border-radius:0 4px 0 0;}
+.corner.bl{bottom:8px;left:8px;border-bottom:2px solid;border-left:2px solid;border-radius:0 0 0 4px;}
+.corner.br{bottom:8px;right:8px;border-bottom:2px solid;border-right:2px solid;border-radius:0 0 4px 0;}
+.slider { position:relative; width:100%; aspect-ratio:16/10; overflow:hidden; background: var(--surface-0); touch-action:pan-y; }
+.slider-track { display:flex; height:100%; transition: transform var(--dur-slow) var(--ease-out); will-change:transform; }
+.slider-track img { width:100%; height:100%; flex-shrink:0; object-fit:cover; user-select:none; -webkit-user-drag:none; }
+.slider-arrow { position:absolute; top:50%; transform:translateY(-50%); width:32px; height:32px; border-radius:50%; background: rgba(10,14,20,.55); backdrop-filter: blur(6px); border:1px solid rgba(255,255,255,.12); color:#fff; display:flex; align-items:center; justify-content:center; opacity:0; transition: opacity var(--dur-base) var(--ease-out), background var(--dur-base); z-index:6; }
+.slider:hover .slider-arrow { opacity:1; }
+.slider-arrow:hover { background: rgba(255,106,61,.7); }
+.slider-arrow svg { width:15px; height:15px; }
+.slider-arrow.prev{left:8px;} .slider-arrow.next{right:8px;}
+.slider-dots { position:absolute; bottom:10px; left:0; right:0; display:flex; justify-content:center; gap:5px; z-index:6; }
+.slider-dots .sdot { width:6px; height:6px; border-radius:50%; background: rgba(255,255,255,.4); transition: all var(--dur-base) var(--ease-out); }
+.slider-dots .sdot.active { background: var(--ember); width:16px; border-radius: var(--r-pill); box-shadow: 0 0 8px rgba(255,106,61,.7); }
+.slider-count { position:absolute; top:10px; right:10px; background: rgba(10,14,20,.6); backdrop-filter: blur(6px); border:1px solid rgba(255,255,255,.1); color: var(--text-hi); font-family: var(--font-mono); font-size:10px; padding:3px 8px; border-radius: var(--r-pill); z-index:6; }
+.card-body { padding: var(--sp-4); }
+.card-top-row { display:flex; align-items:center; justify-content:space-between; margin-bottom: var(--sp-2); }
+.cat-tag { font-size:10px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; padding:4px 10px; border-radius: var(--r-pill); background: var(--cyan-soft); color: var(--cyan); border:1px solid rgba(0,229,204,.3); }
+.trending-badge { display:inline-flex; align-items:center; gap:4px; font-size:10px; font-weight:600; color: var(--gold); }
+.trending-badge svg { width:12px; height:12px; }
+.map-title { font-family: var(--font-display); font-size: var(--fs-lg); font-weight:600; margin-bottom:6px; color: var(--text-hi); }
+.map-desc { font-size: var(--fs-sm); color: var(--text-mid); line-height:1.55; margin-bottom: var(--sp-4); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.code-row { display:flex; align-items:center; gap: var(--sp-2); background: var(--surface-0); border:1px dashed var(--glass-border-strong); border-radius: var(--r-md); padding:10px 10px 10px 14px; }
+.code-row .code-label { font-size:9px; color: var(--text-low); text-transform:uppercase; letter-spacing:.1em; display:block; margin-bottom:2px; }
+.code-value { font-family: var(--font-mono); font-size: var(--fs-md); font-weight:600; color: var(--text-hi); letter-spacing:.03em; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.copy-btn { flex-shrink:0; display:flex; align-items:center; gap:6px; background: var(--grad-ember); color:#200a03; border:none; font-weight:700; font-size: var(--fs-xs); padding:9px 13px; border-radius: var(--r-sm); transition: transform var(--dur-fast) var(--ease-spring), box-shadow var(--dur-base); }
+.copy-btn svg { width:14px; height:14px; }
+.copy-btn:hover { box-shadow: var(--shadow-ember-glow); }
+.copy-btn:active { transform: scale(.93); }
+.copy-btn.copied { background: var(--grad-cyan); color:#04241f; }
 
-.panel-head { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom: var(--sp-5); gap: var(--sp-3); flex-wrap:wrap; }
-.panel-head h2 { font-family: var(--font-display); font-size: var(--fs-xl); font-weight:600; }
-.panel-head p { color: var(--text-low); font-size: var(--fs-sm); margin-top:3px; }
+/* Skeleton */
+.skeleton-card { border-radius: var(--r-lg); overflow:hidden; background: var(--surface-1); border:1px solid var(--glass-border); }
+.skeleton-img { aspect-ratio:16/10; background: var(--surface-2); position:relative; overflow:hidden; }
+.skeleton-line { height:12px; border-radius:6px; background: var(--surface-2); margin: var(--sp-3) var(--sp-4) 0; position:relative; overflow:hidden; }
+.skeleton-line.w60{width:60%;} .skeleton-line.w90{width:90%;} .skeleton-line.w40{width:40%; margin-bottom: var(--sp-4);}
+.skeleton-img::after, .skeleton-line::after { content:""; position:absolute; inset:0; transform:translateX(-100%); background: linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent); animation: shimmer 1.6s infinite; }
+@keyframes shimmer { 100%{ transform: translateX(100%);} }
 
-.stat-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: var(--sp-4); margin-bottom: var(--sp-6); }
-.stat-card { background: var(--glass-fill); border:1px solid var(--glass-border); border-radius: var(--r-lg); padding: var(--sp-4); transition: border-color var(--dur-base), transform var(--dur-base); }
-.stat-card:hover { border-color: var(--glass-border-strong); transform: translateY(-2px); }
-.stat-card .stat-icon { width:36px; height:36px; border-radius: var(--r-sm); display:flex; align-items:center; justify-content:center; margin-bottom: var(--sp-3); }
-.stat-icon svg { width:18px; height:18px; }
-.stat-icon.ember { background: var(--ember-soft); color: var(--ember); }
-.stat-icon.cyan { background: var(--cyan-soft); color: var(--cyan); }
-.stat-icon.gold { background: var(--gold-soft); color: var(--gold); }
-.stat-value { font-family: var(--font-display); font-size: var(--fs-2xl); font-weight:700; }
-.stat-label { font-size: var(--fs-xs); color: var(--text-low); margin-top:2px; }
+/* Empty / error states */
+.empty-state { grid-column:1/-1; text-align:center; padding: var(--sp-8) var(--sp-4); color: var(--text-low); }
+.empty-state svg { width:52px; height:52px; color: var(--text-ghost); margin-bottom: var(--sp-3); }
+.empty-state h3 { font-family: var(--font-display); color: var(--text-mid); font-size: var(--fs-md); margin-bottom:4px; }
+.empty-state p { font-size: var(--fs-sm); }
+.conn-banner { display:none; grid-column:1/-1; background: rgba(255,77,106,.1); border:1px solid rgba(255,77,106,.35); color: var(--danger); font-size: var(--fs-sm); padding: var(--sp-3) var(--sp-4); border-radius: var(--r-md); margin-bottom: var(--sp-4); }
+.conn-banner.show { display:block; }
 
-.breakdown-card { background: var(--glass-fill); border:1px solid var(--glass-border); border-radius: var(--r-lg); padding: var(--sp-5); margin-bottom: var(--sp-5); }
-.breakdown-card h3 { font-family: var(--font-display); font-size: var(--fs-md); margin-bottom: var(--sp-4); display:flex; align-items:center; gap:8px; }
-.breakdown-row { display:flex; align-items:center; gap: var(--sp-3); margin-bottom: var(--sp-3); }
-.breakdown-row:last-child { margin-bottom:0; }
-.breakdown-row .b-label { width:115px; flex-shrink:0; font-size: var(--fs-sm); color: var(--text-mid); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.breakdown-row .b-track { flex:1; height:9px; background: var(--surface-0); border-radius: var(--r-pill); overflow:hidden; }
-.breakdown-row .b-fill { height:100%; background: var(--grad-ember); border-radius: var(--r-pill); transition: width .6s var(--ease-out); }
-.breakdown-row .b-count { width:28px; text-align:right; font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-low); }
-
-.quick-actions { display:flex; gap: var(--sp-3); flex-wrap:wrap; }
-.quick-actions .btn { flex:1; min-width:160px; }
-
-.list-toolbar { display:flex; gap: var(--sp-3); margin-bottom: var(--sp-4); flex-wrap:wrap; }
-.list-toolbar .field { flex:1; min-width:200px; margin-bottom:0; position:relative; }
-.list-toolbar .field svg.search-icon { position:absolute; left:14px; top:50%; transform:translateY(-50%); width:16px; height:16px; color: var(--text-ghost); pointer-events:none; }
-.list-toolbar .field input { padding-left:38px; }
-
-.data-list { display:flex; flex-direction:column; gap: var(--sp-3); }
-.data-row { display:flex; align-items:center; gap: var(--sp-4); background: var(--glass-fill); border:1px solid var(--glass-border); border-radius: var(--r-lg); padding: var(--sp-3) var(--sp-4); transition: border-color var(--dur-base), transform var(--dur-base), background var(--dur-base); animation: row-in .35s var(--ease-out) both; }
-@keyframes row-in { from{ opacity:0; transform: translateY(8px);} to{ opacity:1; transform: translateY(0);} }
-.data-row:hover { border-color: var(--glass-border-strong); background: var(--glass-fill-strong); }
-.data-row .thumb { width:58px; height:58px; border-radius: var(--r-sm); object-fit:cover; flex-shrink:0; background: var(--surface-0); border:1px solid var(--glass-border); }
-.data-row .cat-emoji { width:46px; height:46px; border-radius: var(--r-sm); background: var(--surface-0); border:1px solid var(--glass-border); display:flex; align-items:center; justify-content:center; font-size:21px; flex-shrink:0; }
-.row-main { flex:1; min-width:0; }
-.row-main .row-title { font-weight:600; font-size: var(--fs-base); margin-bottom:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.row-main .row-sub { font-size: var(--fs-xs); color: var(--text-low); display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
-.row-main .row-sub code { font-family: var(--font-mono); color: var(--cyan); background: rgba(0,229,204,.08); padding:1px 6px; border-radius:5px; }
-.row-actions { display:flex; gap:8px; flex-shrink:0; }
-.icon-btn { width:36px; height:36px; border-radius: var(--r-sm); display:flex; align-items:center; justify-content:center; background: var(--glass-fill); border:1px solid var(--glass-border); color: var(--text-mid); transition: all var(--dur-base); }
-.icon-btn svg { width:15px; height:15px; }
-.icon-btn:hover { color: var(--text-hi); background: var(--glass-fill-strong); transform: translateY(-1px); }
-.icon-btn.danger:hover { color: var(--danger); border-color: rgba(255,77,106,.4); background: var(--danger-soft); }
-
-.empty-mini { text-align:center; color: var(--text-low); font-size: var(--fs-sm); padding: var(--sp-7) var(--sp-5); border:1.5px dashed var(--glass-border); border-radius: var(--r-lg); }
-.empty-mini svg { width:34px; height:34px; color: var(--text-ghost); margin-bottom: var(--sp-2); }
-.empty-mini .empty-cta { margin-top: var(--sp-3); }
-
-.img-url-input-row { display:flex; gap:8px; }
-.img-url-input-row input { flex:1; }
-.img-url-input-row .btn { flex-shrink:0; }
-.image-preview-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(78px,1fr)); gap:9px; margin-top: var(--sp-3); }
-.image-preview { position:relative; aspect-ratio:1; border-radius:11px; overflow:hidden; border:1px solid var(--glass-border); background: var(--surface-0); }
-.image-preview img { width:100%; height:100%; object-fit:cover; }
-.image-preview .cover-badge { position:absolute; bottom:3px; left:3px; background: rgba(255,106,61,.9); color:#200a03; font-size:8.5px; font-weight:700; padding:2px 6px; border-radius:5px; letter-spacing:.03em; text-transform:uppercase; }
-.image-preview .remove-img { position:absolute; top:3px; right:3px; width:21px; height:21px; border-radius:50%; background: rgba(0,0,0,.65); color:#fff; display:flex; align-items:center; justify-content:center; border:none; transition: background var(--dur-fast); }
-.image-preview .remove-img:hover { background: var(--danger); }
-.image-preview .remove-img svg { width:10px; height:10px; }
-.image-preview.broken { display:flex; align-items:center; justify-content:center; }
-.image-preview.broken::before { content:"⚠ broken link"; font-size:9px; color: var(--text-ghost); text-align:center; padding:4px; }
-.image-preview.broken img { display:none; }
-
-.hosting-hint { display:flex; gap:10px; background: var(--cyan-soft); border:1px solid rgba(0,229,204,.28); border-radius: var(--r-md); padding: var(--sp-3) var(--sp-4); margin-top: var(--sp-3); font-size: var(--fs-xs); color: var(--text-mid); line-height:1.6; }
-.hosting-hint svg { width:16px; height:16px; color: var(--cyan); flex-shrink:0; margin-top:1px; }
-.hosting-hint a { color: var(--cyan); font-weight:600; text-decoration: underline; text-underline-offset:2px; }
-
-.modal-overlay { position:fixed; inset:0; z-index:200; background: rgba(6,8,12,.68); backdrop-filter: blur(7px); display:none; align-items:flex-end; justify-content:center; }
-.modal-overlay.open { display:flex; animation: overlay-in var(--dur-base) var(--ease-out); }
-@keyframes overlay-in { from{opacity:0;} to{opacity:1;} }
-.modal-sheet { width:100%; max-width:580px; max-height:92vh; overflow-y:auto; background: var(--surface-1); border:1px solid var(--glass-border-strong); border-radius: var(--r-xl) var(--r-xl) 0 0; padding: var(--sp-5) var(--sp-5) var(--sp-7); animation: sheet-in var(--dur-slow) var(--ease-out) both; }
-@keyframes sheet-in { from{ transform: translateY(34px); opacity:.5;} to{ transform: translateY(0); opacity:1;} }
-@media (min-width:640px){ .modal-overlay{ align-items:center; padding: var(--sp-4);} .modal-sheet{ border-radius: var(--r-xl);} }
-.modal-head { display:flex; align-items:center; justify-content:space-between; margin-bottom: var(--sp-5); position:sticky; top:0; }
-.modal-head-icon { width:34px; height:34px; border-radius: var(--r-sm); background: var(--ember-soft); color: var(--ember); display:flex; align-items:center; justify-content:center; margin-right:10px; flex-shrink:0; }
-.modal-head-icon svg { width:16px; height:16px; }
-.modal-head-title { display:flex; align-items:center; }
-.modal-head h3 { font-family: var(--font-display); font-size: var(--fs-lg); font-weight:600; }
-.modal-close { width:34px; height:34px; border-radius:50%; background: var(--glass-fill); border:1px solid var(--glass-border); color: var(--text-mid); display:flex; align-items:center; justify-content:center; transition: all var(--dur-base); flex-shrink:0; }
-.modal-close:hover { background: var(--glass-fill-strong); color: var(--text-hi); }
-.modal-close svg { width:14px; height:14px; }
-.form-row-2 { display:grid; grid-template-columns:1fr 1fr; gap: var(--sp-3); }
-@media (max-width:480px){ .form-row-2{ grid-template-columns:1fr;} }
-.modal-footer { display:flex; gap: var(--sp-3); margin-top: var(--sp-5); }
-.modal-footer .btn { flex:1; }
-.char-count { text-align:right; font-size:10.5px; color: var(--text-ghost); margin-top:4px; }
-
-.confirm-icon { width:44px; height:44px; border-radius: var(--r-md); background: var(--danger-soft); color: var(--danger); display:flex; align-items:center; justify-content:center; margin-bottom: var(--sp-4); }
-.confirm-icon svg { width:22px; height:22px; }
-
-@media (max-width:480px){ .brand-mini .brand-copy .tag{ display:none;} .user-chip .user-email { max-width:80px; } }
-
+/* Toast */
 .toast-stack { position:fixed; bottom: var(--sp-5); left:50%; transform:translateX(-50%); z-index:999; display:flex; flex-direction:column; gap:8px; align-items:center; width:max-content; max-width: calc(100% - 32px); }
-.toast { display:flex; align-items:center; gap:9px; background: rgba(20,26,20,.92); border:1px solid rgba(55,224,138,.4); color: var(--text-hi); padding:12px 18px; border-radius: var(--r-pill); font-size: var(--fs-sm); font-weight:500; box-shadow: var(--shadow-float); backdrop-filter: blur(14px); animation: toast-in var(--dur-base) var(--ease-spring) both; }
-.toast.error { border-color: rgba(255,77,106,.5); background: rgba(26,16,18,.92); }
+.toast { display:flex; align-items:center; gap:8px; background: rgba(20,26,20,.9); border:1px solid rgba(55,224,138,.4); color: var(--text-hi); padding:11px 18px; border-radius: var(--r-pill); font-size: var(--fs-sm); font-weight:500; box-shadow: var(--shadow-float); backdrop-filter: blur(12px); animation: toast-in var(--dur-base) var(--ease-spring) both; }
 .toast.leaving { animation: toast-out var(--dur-base) var(--ease-out) both; }
 .toast svg { width:16px; height:16px; color: var(--success); flex-shrink:0; }
-.toast.error svg { color: var(--danger); }
 @keyframes toast-in { from{opacity:0; transform: translateY(14px) scale(.9);} to{opacity:1; transform:translateY(0) scale(1);} }
 @keyframes toast-out { to{ opacity:0; transform: translateY(8px) scale(.9);} }
+
+/* Footer */
+.site-footer { border-top:1px solid var(--glass-border); padding: var(--sp-6) 0 var(--sp-8); text-align:center; }
+.site-footer p { font-size: var(--fs-xs); color: var(--text-ghost); }
+.footer-admin-link { display:inline-flex; margin-top: var(--sp-3); font-size: var(--fs-xs); color: var(--text-ghost); border:1px solid var(--glass-border); padding:6px 14px; border-radius: var(--r-pill); transition: all var(--dur-base); }
+.footer-admin-link:hover { color: var(--cyan); border-color: rgba(0,229,204,.3); }
+
+@media (min-width:768px){ .search-zone h1{ font-size: var(--fs-3xl);} }
+@media (max-width:480px){ .brand-tag{display:none;} .search-zone h1{ font-size: var(--fs-xl);} }
 </style>
 </head>
 <body>
 
-<div class="login-screen" id="loginScreen">
-  <div class="login-glow"></div>
-  <div class="login-glow two"></div>
-  <div class="login-card">
-    <div class="login-mark">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#160702" stroke-width="2.2"><path d="M12 2l2.5 6.5L21 9l-5 4.5L17.5 21 12 17l-5.5 4L8 13.5 3 9l6.5-.5z"/></svg>
-    </div>
-    <h1>Admin Access</h1>
-    <p class="sub">Sign in to manage Craftland maps &amp; categories</p>
-
-    <div class="login-error" id="loginError">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 8v5M12 16h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>
-      <span id="loginErrorText">Login failed. Check your email/password.</span>
-    </div>
-
-    <form id="loginForm">
-      <div class="field">
-        <label for="loginEmail">Admin email</label>
-        <input type="email" id="loginEmail" autocomplete="username" placeholder="you@example.com" required>
-      </div>
-      <div class="field">
-        <label for="loginPass">Password</label>
-        <input type="password" id="loginPass" autocomplete="current-password" placeholder="••••••••" required>
-      </div>
-      <button type="submit" class="btn btn-primary" id="loginSubmitBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
-        Sign In
-      </button>
-    </form>
-
-    <p class="login-demo-note">
-      Login <b>Firebase Authentication</b> se secure hai — sirf wahi account
-      likh (add/edit/delete) sakta hai jiska UID <code>firestore.rules</code>
-      me set hai. Storage use nahi ho raha (free Spark plan) — images
-      seedhe URL se add hoti hain.
-    </p>
-  </div>
-</div>
-
-<div class="admin-app" id="adminApp">
-  <div class="admin-topbar">
-    <div class="brand-mini">
-      <span class="dot-mark"></span>
-      <span class="brand-copy">
-        <span class="name">Craftland Admin</span>
-        <span class="tag">Control Center</span>
+<header class="site-header">
+  <div class="container">
+    <a href="#top" class="brand">
+      <span class="brand-mark" id="brandMark">
+        <!-- Apna logo "logo.png" naam se isi folder me (index.html ke saath) GitHub par upload karein — yeh yahan automatically dikhega. Agar logo.png nahi milta to default flame icon dikh jaata hai. -->
+        <img src="logo.png" alt="Craftland Map Library logo" onerror="document.getElementById('brandMark').innerHTML='&lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;#160702&quot; stroke-width=&quot;2.2&quot;&gt;&lt;path d=&quot;M12 2l2.5 6.5L21 9l-5 4.5L17.5 21 12 17l-5.5 4L8 13.5 3 9l6.5-.5z&quot;/&gt;&lt;/svg&gt;'">
       </span>
+      <span class="brand-text">
+        <span class="brand-name">Craftland<span style="color:var(--ember)">Lib</span></span>
+        <span class="brand-tag">Free Fire Map Library</span>
+      </span>
+    </a>
+    <div class="header-social">
+      <!-- TODO: apna YouTube channel link yahan daalein -->
+      <a class="social-btn" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.4 3.5 12 3.5 12 3.5s-7.4 0-9.4.6A3 3 0 00.5 6.2 31 31 0 000 12a31 31 0 00.5 5.8 3 3 0 002.1 2.1c2 .6 9.4.6 9.4.6s7.4 0 9.4-.6a3 3 0 002.1-2.1A31 31 0 0024 12a31 31 0 00-.5-5.8zM9.6 15.5v-7l6.3 3.5-6.3 3.5z"/></svg>
+      </a>
+      <!-- TODO: apna Instagram page link yahan daalein -->
+      <a class="social-btn" href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      </a>
     </div>
-    <div class="topbar-right">
-      <span class="live-indicator"><span class="lp-dot"></span>LIVE</span>
-      <div class="user-chip">
-        <span class="avatar" id="userAvatar">A</span>
-        <span class="user-email" id="userEmailLabel"></span>
-      </div>
-      <button type="button" class="icon-btn" id="logoutBtn" aria-label="Log out" title="Log out">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+  </div>
+</header>
+
+<main id="top">
+  <section class="search-zone container">
+    <span class="eyebrow"><span class="dot"></span>Live Library · Real-Time Updates</span>
+    <h1>Find your next <span>Craftland</span> map</h1>
+    <div class="search-bar">
+      <svg class="icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="searchInput" type="text" placeholder="Search by title, description, map code or category…" autocomplete="off" inputmode="search">
+      <button type="button" id="searchClear" class="search-clear" aria-label="Clear search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
     </div>
+    <p class="result-meta" id="resultMeta">
+      <span class="live-pill"><span class="lp-dot"></span>Connecting…</span>
+    </p>
+  </section>
+
+  <div class="filter-bar-wrap">
+    <nav class="filter-bar" id="filterBar" aria-label="Filter by category"></nav>
   </div>
 
-  <nav class="admin-tabs" id="adminTabs">
-    <button class="admin-tab active" data-panel="dashboard">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
-      Dashboard
-    </button>
-    <button class="admin-tab" data-panel="categories">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h6l2 2h8v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z"/></svg>
-      Categories <span class="tab-count" id="catTabCount">0</span>
-    </button>
-    <button class="admin-tab" data-panel="maps">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6l7-3 8 3 7-3v15l-7 3-8-3-7 3z"/><path d="M8 3v15M16 6v15"/></svg>
-      Maps <span class="tab-count" id="mapTabCount">0</span>
-    </button>
-  </nav>
-
-  <main class="admin-main">
-
-    <section class="admin-panel active" id="panel-dashboard">
-      <div class="panel-head">
-        <div><h2>Dashboard</h2><p>Live snapshot of your library — updates in real time.</p></div>
-      </div>
-      <div class="stat-grid" id="statGrid"></div>
-      <div class="breakdown-card">
-        <h3>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-          Maps per category
-        </h3>
-        <div id="breakdownList"></div>
-      </div>
-      <div class="quick-actions">
-        <button class="btn btn-secondary" data-goto-tab="categories">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-          New Category
-        </button>
-        <button class="btn btn-primary" data-goto-tab="maps" data-open-map>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-          New Map
-        </button>
-      </div>
-    </section>
-
-    <section class="admin-panel" id="panel-categories">
-      <div class="panel-head">
-        <div><h2>Categories</h2><p>New categories appear on the homepage filter bar instantly.</p></div>
-        <button class="btn btn-primary btn-sm" id="openAddCategory">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-          Add Category
-        </button>
-      </div>
-      <div class="data-list" id="categoryList"></div>
-    </section>
-
-    <section class="admin-panel" id="panel-maps">
-      <div class="panel-head">
-        <div><h2>Craftland Maps</h2><p>Add, edit or remove maps. Changes publish instantly — live on the homepage.</p></div>
-        <button class="btn btn-primary btn-sm" id="openAddMap">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-          Add Map
-        </button>
-      </div>
-      <div class="list-toolbar">
-        <div class="field">
-          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-          <input type="text" id="mapSearchAdmin" placeholder="Search maps in the admin list…">
-        </div>
-      </div>
-      <div class="data-list" id="mapList"></div>
-    </section>
-
-  </main>
-</div>
-
-<div class="modal-overlay" id="categoryModal">
-  <div class="modal-sheet">
-    <div class="modal-head">
-      <div class="modal-head-title">
-        <span class="modal-head-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h6l2 2h8v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z"/></svg></span>
-        <h3 id="categoryModalTitle">Add Category</h3>
-      </div>
-      <button class="modal-close" data-close-modal><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+  <section class="map-section container">
+    <div class="conn-banner" id="connBanner">
+      Firebase se connect nahi ho paya. <code>firebaseConfig</code> check karein (index.html ke top script me) aur Firestore rules deploy karein.
     </div>
-    <form id="categoryForm">
-      <input type="hidden" id="categoryId">
-      <div class="form-row-2">
-        <div class="field">
-          <label for="categoryIcon">Icon (emoji)</label>
-          <input type="text" id="categoryIcon" placeholder="🔥" maxlength="4">
-        </div>
-        <div class="field">
-          <label for="categoryName"><span class="req-dot"></span>Category name</label>
-          <input type="text" id="categoryName" placeholder="e.g. Sniper" required>
-          <div class="field-error">Please enter a category name.</div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-close-modal>Cancel</button>
-        <button type="submit" class="btn btn-primary" id="categorySaveBtn">Save Category</button>
-      </div>
-    </form>
-  </div>
-</div>
+    <div class="map-grid" id="mapGrid"></div>
+  </section>
+</main>
 
-<div class="modal-overlay" id="mapModal">
-  <div class="modal-sheet">
-    <div class="modal-head">
-      <div class="modal-head-title">
-        <span class="modal-head-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6l7-3 8 3 7-3v15l-7 3-8-3-7 3z"/><path d="M8 3v15M16 6v15"/></svg></span>
-        <h3 id="mapModalTitle">Add Craftland Map</h3>
-      </div>
-      <button class="modal-close" data-close-modal><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
-    </div>
-    <form id="mapForm">
-      <input type="hidden" id="mapId">
-
-      <div class="field">
-        <label for="mapTitle"><span class="req-dot"></span>Map title</label>
-        <input type="text" id="mapTitle" placeholder="e.g. Ember Ridge Arena" required>
-        <div class="field-error">Please enter a title.</div>
-      </div>
-
-      <div class="field">
-        <label for="mapDescription"><span class="req-dot"></span>Description</label>
-        <textarea id="mapDescription" placeholder="A short, punchy description of the map…" required maxlength="220"></textarea>
-        <div class="char-count"><span id="descCharCount">0</span>/220</div>
-        <div class="field-error">Please enter a description.</div>
-      </div>
-
-      <div class="form-row-2">
-        <div class="field">
-          <label for="mapCategory"><span class="req-dot"></span>Category</label>
-          <select id="mapCategory" required></select>
-        </div>
-        <div class="field">
-          <label for="mapCode"><span class="req-dot"></span>Map code</label>
-          <input type="text" id="mapCode" placeholder="e.g. 123-456-789" required>
-          <div class="field-error">Please enter a map code.</div>
-        </div>
-      </div>
-
-      <div class="field">
-        <label><span class="req-dot"></span>Images (paste image links)</label>
-        <div class="img-url-input-row">
-          <input type="url" id="mapImageUrlInput" placeholder="https://example.com/screenshot.jpg">
-          <button type="button" class="btn btn-secondary btn-sm" id="addImageUrlBtn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-            Add
-          </button>
-        </div>
-        <div class="image-preview-grid" id="imagePreviewGrid"></div>
-        <div class="field-error" id="mapImagesError">Please add at least one image link.</div>
-
-        <div class="hosting-hint">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v5M12 16h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>
-          <span>
-            Firebase <b>Storage free plan par nahi use ho raha</b>, isliye
-            image file upload karne ke bajaye seedha <b>image URL paste</b>
-            karein. Free me screenshot host karne ke liye
-            <a href="https://imgbb.com" target="_blank" rel="noopener">imgbb.com</a>,
-            <a href="https://postimages.org" target="_blank" rel="noopener">postimages.org</a>
-            ya <a href="https://imgur.com" target="_blank" rel="noopener">imgur.com</a>
-            par image upload karke uska "direct link" yahan paste kar sakte hain.
-            Pehli image cover banti hai.
-          </span>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-close-modal>Cancel</button>
-        <button type="submit" class="btn btn-primary" id="mapSaveBtn">Publish Map</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<div class="modal-overlay" id="confirmModal">
-  <div class="modal-sheet" style="max-width:400px;">
-    <div class="modal-head">
-      <div class="modal-head-title" style="flex-direction:column; align-items:flex-start;">
-        <span class="confirm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/></svg></span>
-      </div>
-      <button class="modal-close" data-close-modal><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
-    </div>
-    <h3 id="confirmTitle" style="font-family:var(--font-display); font-size:var(--fs-lg); margin-bottom:8px;">Delete item?</h3>
-    <p id="confirmMessage" style="color:var(--text-mid); font-size:var(--fs-sm); line-height:1.6;">This action cannot be undone.</p>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-close-modal>Cancel</button>
-      <button type="button" class="btn btn-danger" id="confirmActionBtn">Delete</button>
-    </div>
-  </div>
-</div>
+<footer class="site-footer container">
+  <p>Built for the Free Fire community · Not affiliated with Garena.</p>
+  <a class="footer-admin-link" href="admin.html">Admin Panel →</a>
+</footer>
 
 <script type="module">
+/* ============================================================
+   FIREBASE SETUP
+   ------------------------------------------------------------
+   Neeche apna Firebase project ka config paste karein
+   (Firebase Console → Project settings → General → Your apps → SDK setup and configuration).
+   Yehi config admin.html me bhi bilkul same paste karna hai.
+   ============================================================ */
 const firebaseConfig = {
   apiKey: "PASTE_YOUR_API_KEY",
   authDomain: "PASTE_YOUR_PROJECT.firebaseapp.com",
@@ -504,448 +245,232 @@ const firebaseConfig = {
   appId: "PASTE_YOUR_APP_ID"
 };
 
-// NOTE: Firebase Storage is intentionally NOT imported or used here —
-// the free "Spark" plan doesn't include Storage, so images are added
-// as plain URLs (from any free image host) and saved straight into
-// the Firestore document. Only Auth + Firestore are needed below.
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
 import {
-  getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
-} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-import {
-  getFirestore, collection, query, orderBy, onSnapshot,
-  addDoc, updateDoc, deleteDoc, doc, serverTimestamp
+  getFirestore, collection, query, orderBy, onSnapshot
 } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 const db = getFirestore(app);
 
-let liveCategories = [];
-let liveMaps = [];
-let adminMapTerm = "";
-let pendingImageUrls = [];
-let unsubCategories = null, unsubMaps = null;
+/* ---------------- Local state (rebuilt live) ---------------- */
+let liveMaps = [];        // always mirrors the "maps" collection
+let liveCategories = [];  // always mirrors the "categories" collection
+let uiState = { term: "", category: "all" };
+let firstMapsLoad = true;
+let firstCatsLoad = true;
 
-const loginScreen = document.getElementById("loginScreen");
-const adminApp = document.getElementById("adminApp");
-const loginForm = document.getElementById("loginForm");
-const loginError = document.getElementById("loginError");
-const loginErrorText = document.getElementById("loginErrorText");
-const loginSubmitBtn = document.getElementById("loginSubmitBtn");
-const logoutBtn = document.getElementById("logoutBtn");
-const userEmailLabel = document.getElementById("userEmailLabel");
-const userAvatar = document.getElementById("userAvatar");
-const tabs = document.querySelectorAll(".admin-tab");
-const catTabCount = document.getElementById("catTabCount");
-const mapTabCount = document.getElementById("mapTabCount");
+/* ---------------- DOM refs ---------------- */
+const grid = document.getElementById("mapGrid");
+const filterBar = document.getElementById("filterBar");
+const searchInput = document.getElementById("searchInput");
+const searchClear = document.getElementById("searchClear");
+const resultMeta = document.getElementById("resultMeta");
+const connBanner = document.getElementById("connBanner");
 
-const statGrid = document.getElementById("statGrid");
-const breakdownList = document.getElementById("breakdownList");
-
-const categoryList = document.getElementById("categoryList");
-const categoryModal = document.getElementById("categoryModal");
-const categoryForm = document.getElementById("categoryForm");
-const categoryModalTitle = document.getElementById("categoryModalTitle");
-const categorySaveBtn = document.getElementById("categorySaveBtn");
-
-const mapList = document.getElementById("mapList");
-const mapModal = document.getElementById("mapModal");
-const mapForm = document.getElementById("mapForm");
-const mapModalTitle = document.getElementById("mapModalTitle");
-const mapSaveBtn = document.getElementById("mapSaveBtn");
-const mapSearchAdmin = document.getElementById("mapSearchAdmin");
-const mapDescription = document.getElementById("mapDescription");
-const descCharCount = document.getElementById("descCharCount");
-const mapImageUrlInput = document.getElementById("mapImageUrlInput");
-const addImageUrlBtn = document.getElementById("addImageUrlBtn");
-const imagePreviewGrid = document.getElementById("imagePreviewGrid");
-const mapImagesError = document.getElementById("mapImagesError");
-
-const confirmModal = document.getElementById("confirmModal");
-const confirmTitle = document.getElementById("confirmTitle");
-const confirmMessage = document.getElementById("confirmMessage");
-const confirmActionBtn = document.getElementById("confirmActionBtn");
-
+/* ---------------- Small helpers ---------------- */
 function escapeHTML(str = "") {
   return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
 }
-function debounce(fn, wait=200){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), wait); }; }
-function timeAgo(ts) {
-  if (!ts) return "just now";
-  const ms = ts.toMillis ? ts.toMillis() : ts;
-  const s = Math.floor((Date.now()-ms)/1000);
-  const units=[[31536000,"y"],[2592000,"mo"],[86400,"d"],[3600,"h"],[60,"m"]];
-  for (const [secs,label] of units){ const v=Math.floor(s/secs); if (v>=1) return `${v}${label} ago`; }
-  return "just now";
-}
+function debounce(fn, wait = 200) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), wait); }; }
+
 const Icons = {
-  close:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>',
-  fire:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 3-2 4-2 7a4 4 0 008 0c1-1 1-2.5.5-4 1.5 1 3.5 3.5 3.5 7a8 8 0 11-16 0c0-4 2-7 6-10z"/></svg>',
-  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>',
-  warn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 8v5M12 16h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>',
-  emptyFolder:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h6l2 2h8v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z"/></svg>',
-  emptyMap:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 6l7-3 8 3 7-3v15l-7 3-8-3-7 3z"/></svg>',
+  chevronLeft: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>',
+  chevronRight: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>',
+  copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 01-1-1V4a1 1 0 011-1h10a1 1 0 011 1v1"/></svg>',
+  fire: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 3-2 4-2 7a4 4 0 008 0c1-1 1-2.5.5-4 1.5 1 3.5 3.5 3.5 7a8 8 0 11-16 0c0-4 2-7 6-10z"/></svg>',
+  empty: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>',
 };
+
 const Toast = (() => {
   let stack;
-  function ensure(){ if(!stack){ stack=document.createElement("div"); stack.className="toast-stack"; document.body.appendChild(stack);} return stack; }
-  function show(message, type="success"){
+  function ensure() { if (!stack) { stack = document.createElement("div"); stack.className = "toast-stack"; document.body.appendChild(stack); } return stack; }
+  function show(message) {
     const el = ensure();
     const t = document.createElement("div");
-    t.className = "toast" + (type==="error" ? " error" : "");
-    t.innerHTML = `${type==="error"?Icons.warn:Icons.check}<span>${escapeHTML(message)}</span>`;
+    t.className = "toast";
+    t.innerHTML = `${Icons.check}<span>${escapeHTML(message)}</span>`;
     el.appendChild(t);
-    setTimeout(()=>{ t.classList.add("leaving"); setTimeout(()=>t.remove(),260); }, 2400);
+    setTimeout(() => { t.classList.add("leaving"); setTimeout(() => t.remove(), 260); }, 2200);
   }
   return { show };
 })();
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    const email = user.email || "";
-    userEmailLabel.textContent = email;
-    userAvatar.textContent = (email[0] || "A").toUpperCase();
-    showApp();
-    startLiveListeners();
-  } else {
-    showLogin();
-    stopLiveListeners();
+async function copyToClipboard(text) {
+  try { await navigator.clipboard.writeText(text); return true; }
+  catch (e) {
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select(); document.execCommand("copy"); document.body.removeChild(ta);
+      return true;
+    } catch (err) { return false; }
   }
-});
+}
 
-function showApp(){ loginScreen.style.display="none"; adminApp.classList.add("active"); }
-function showLogin(){ loginScreen.style.display="flex"; adminApp.classList.remove("active"); }
-
-loginForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const email = document.getElementById("loginEmail").value.trim();
-  const pass = document.getElementById("loginPass").value;
-  loginSubmitBtn.disabled = true;
-  loginSubmitBtn.innerHTML = `<span class="spinner"></span> Signing in…`;
-  try {
-    await signInWithEmailAndPassword(auth, email, pass);
-    loginError.classList.remove("show");
-    loginForm.reset();
-  } catch (err) {
-    console.error(err);
-    loginErrorText.textContent = "Login failed — check your email and password.";
-    loginError.classList.add("show");
-  } finally {
-    loginSubmitBtn.disabled = false;
-    loginSubmitBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg> Sign In`;
+/* ---------------- Slider component ---------------- */
+function buildSliderHTML(images, altPrefix) {
+  const imgs = images && images.length ? images : ["https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=800&q=70&auto=format"];
+  const slides = imgs.map((src, i) => `<img src="${escapeHTML(src)}" alt="${escapeHTML(altPrefix)} ${i+1}" loading="lazy" draggable="false">`).join("");
+  const dots = imgs.map((_, i) => `<span class="sdot${i===0?" active":""}"></span>`).join("");
+  return `<div class="slider">
+    <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+    <div class="slider-track">${slides}</div>
+    <button type="button" class="slider-arrow prev" aria-label="Previous image">${Icons.chevronLeft}</button>
+    <button type="button" class="slider-arrow next" aria-label="Next image">${Icons.chevronRight}</button>
+    <div class="slider-dots">${dots}</div>
+    <span class="slider-count">1 / ${imgs.length}</span>
+  </div>`;
+}
+function initSlider(rootEl) {
+  const track = rootEl.querySelector(".slider-track");
+  const slides = Array.from(track.children);
+  const dotsWrap = rootEl.querySelector(".slider-dots");
+  const prevBtn = rootEl.querySelector(".slider-arrow.prev");
+  const nextBtn = rootEl.querySelector(".slider-arrow.next");
+  const countEl = rootEl.querySelector(".slider-count");
+  let index = 0, startX = 0, currentX = 0, dragging = false;
+  if (slides.length <= 1) { prevBtn.style.display="none"; nextBtn.style.display="none"; dotsWrap.style.display="none"; return; }
+  function goTo(i, animate = true) {
+    index = (i + slides.length) % slides.length;
+    track.style.transition = animate ? "" : "none";
+    track.style.transform = `translateX(-${index*100}%)`;
+    if (!animate) requestAnimationFrame(() => track.style.transition = "");
+    dotsWrap.querySelectorAll(".sdot").forEach((d,i2)=>d.classList.toggle("active", i2===index));
+    countEl.textContent = `${index+1} / ${slides.length}`;
   }
-});
-
-logoutBtn.addEventListener("click", async () => { await signOut(auth); Toast.show("Logged out"); });
-
-function startLiveListeners() {
-  const catsQuery = query(collection(db, "categories"), orderBy("displayOrder", "asc"));
-  unsubCategories = onSnapshot(catsQuery, (snap) => {
-    liveCategories = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    catTabCount.textContent = liveCategories.length;
-    renderCategories();
-    renderDashboard();
-    populateCategorySelect();
-  }, (err) => { console.error(err); Toast.show("Categories me connect nahi ho paya", "error"); });
-
-  const mapsQuery = query(collection(db, "maps"), orderBy("createdAt", "desc"));
-  unsubMaps = onSnapshot(mapsQuery, (snap) => {
-    liveMaps = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    mapTabCount.textContent = liveMaps.length;
-    renderMaps();
-    renderDashboard();
-  }, (err) => { console.error(err); Toast.show("Maps me connect nahi ho paya", "error"); });
-}
-function stopLiveListeners() {
-  if (unsubCategories) unsubCategories();
-  if (unsubMaps) unsubMaps();
+  prevBtn.addEventListener("click", e => { e.stopPropagation(); goTo(index-1); });
+  nextBtn.addEventListener("click", e => { e.stopPropagation(); goTo(index+1); });
+  dotsWrap.querySelectorAll(".sdot").forEach((dot,i)=>dot.addEventListener("click", e => { e.stopPropagation(); goTo(i); }));
+  track.addEventListener("pointerdown", e => { dragging=true; startX=e.clientX; currentX=startX; track.style.transition="none"; track.setPointerCapture(e.pointerId); });
+  track.addEventListener("pointermove", e => { if(!dragging) return; currentX=e.clientX; const dx=currentX-startX; const pct=(dx/rootEl.offsetWidth)*100; track.style.transform=`translateX(calc(-${index*100}% + ${pct}%))`; });
+  function endDrag(){ if(!dragging) return; dragging=false; const dx=currentX-startX; track.style.transition=""; if (Math.abs(dx) > rootEl.offsetWidth*0.15) { dx<0 ? goTo(index+1) : goTo(index-1);} else { goTo(index);} }
+  track.addEventListener("pointerup", endDrag);
+  track.addEventListener("pointercancel", endDrag);
+  track.addEventListener("pointerleave", () => { if(dragging) endDrag(); });
+  goTo(0, false);
 }
 
-function switchTab(panelName) {
-  tabs.forEach(t => t.classList.toggle("active", t.dataset.panel === panelName));
-  document.querySelectorAll(".admin-panel").forEach(p => p.classList.remove("active"));
-  document.getElementById(`panel-${panelName}`).classList.add("active");
-}
-tabs.forEach(tab => tab.addEventListener("click", () => switchTab(tab.dataset.panel)));
-document.querySelectorAll("[data-goto-tab]").forEach(btn => {
-  btn.addEventListener("click", () => {
-    switchTab(btn.dataset.gotoTab);
-    if (btn.hasAttribute("data-open-map")) openMapModal();
-  });
-});
+/* ---------------- Rendering ---------------- */
+function categoryById(id) { return liveCategories.find(c => c.id === id) || null; }
 
-function openModal(m){ m.classList.add("open"); }
-function closeModal(m){ m.classList.remove("open"); }
-document.querySelectorAll("[data-close-modal]").forEach(btn => btn.addEventListener("click", () => closeModal(btn.closest(".modal-overlay"))));
-[categoryModal, mapModal, confirmModal].forEach(m => m.addEventListener("click", e => { if (e.target===m) closeModal(m); }));
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape") [categoryModal, mapModal, confirmModal].forEach(m => closeModal(m));
-});
-
-function askConfirm(title, message, onConfirm) {
-  confirmTitle.textContent = title;
-  confirmMessage.textContent = message;
-  openModal(confirmModal);
-  const freshBtn = document.getElementById("confirmActionBtn").cloneNode(true);
-  document.getElementById("confirmActionBtn").replaceWith(freshBtn);
-  freshBtn.addEventListener("click", async () => {
-    freshBtn.disabled = true;
-    freshBtn.innerHTML = `<span class="spinner"></span> Deleting…`;
-    await onConfirm();
-    closeModal(confirmModal);
+function renderFilterBar() {
+  const chips = [{ id:"all", categoryName:"All", icon:"✦" }, ...liveCategories];
+  filterBar.innerHTML = chips.map(c => `
+    <button type="button" class="chip${uiState.category===c.id?" active":""}" data-cat="${c.id}">
+      <span class="chip-dot"></span>${escapeHTML(c.icon||"")} ${escapeHTML(c.categoryName)}
+    </button>`).join("");
+  filterBar.querySelectorAll(".chip").forEach(btn => {
+    btn.addEventListener("click", () => { uiState.category = btn.dataset.cat; renderFilterBar(); renderGrid(); });
   });
 }
 
-function renderDashboard() {
-  const weekAgo = Date.now() - 86400000*7;
-  const newThisWeek = liveMaps.filter(m => m.createdAt && (m.createdAt.toMillis ? m.createdAt.toMillis() : m.createdAt) >= weekAgo).length;
-  statGrid.innerHTML = `
-    <div class="stat-card"><div class="stat-icon ember">${Icons.fire}</div><div class="stat-value">${liveMaps.length}</div><div class="stat-label">Total maps</div></div>
-    <div class="stat-card"><div class="stat-icon cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h6l2 2h8v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z"/></svg></div><div class="stat-value">${liveCategories.length}</div><div class="stat-label">Categories</div></div>
-    <div class="stat-card"><div class="stat-icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg></div><div class="stat-value">${newThisWeek}</div><div class="stat-label">Added this week</div></div>`;
-  const byCat = liveCategories.map(c => ({ name: c.categoryName, count: liveMaps.filter(m => m.category === c.id).length }));
-  const max = Math.max(1, ...byCat.map(c => c.count));
-  breakdownList.innerHTML = byCat.length ? byCat.map(c => `
-    <div class="breakdown-row">
-      <span class="b-label">${escapeHTML(c.name)}</span>
-      <span class="b-track"><span class="b-fill" style="width:${(c.count/max)*100}%"></span></span>
-      <span class="b-count">${c.count}</span>
-    </div>`).join("") : `<p class="empty-mini" style="padding:var(--sp-4);">No categories yet.</p>`;
-}
-
-function renderCategories() {
-  categoryList.innerHTML = liveCategories.length ? liveCategories.map(c => {
-    const count = liveMaps.filter(m => m.category === c.id).length;
-    return `<div class="data-row" data-id="${c.id}">
-      <div class="cat-emoji">${escapeHTML(c.icon || "🗂️")}</div>
-      <div class="row-main">
-        <div class="row-title">${escapeHTML(c.categoryName)}</div>
-        <div class="row-sub"><span>${count} map${count===1?"":"s"}</span><span>· order ${c.displayOrder}</span></div>
-      </div>
-      <div class="row-actions">
-        <button class="icon-btn" data-edit-cat title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg></button>
-        <button class="icon-btn danger" data-delete-cat title="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/></svg></button>
-      </div>
-    </div>`;
-  }).join("") : `<div class="empty-mini">
-      ${Icons.emptyFolder}
-      <div>No categories yet — add your first one.</div>
-      <button class="btn btn-primary btn-sm empty-cta" onclick="document.getElementById('openAddCategory').click()">Add Category</button>
-    </div>`;
-
-  categoryList.querySelectorAll("[data-edit-cat]").forEach(btn => btn.addEventListener("click", () => openCategoryModal(btn.closest(".data-row").dataset.id)));
-  categoryList.querySelectorAll("[data-delete-cat]").forEach(btn => btn.addEventListener("click", () => {
-    const id = btn.closest(".data-row").dataset.id;
-    const cat = liveCategories.find(c => c.id === id);
-    askConfirm("Delete category?", `"${cat.categoryName}" will be removed. Existing maps keep their reference but show as Uncategorized.`, async () => {
-      try { await deleteDoc(doc(db, "categories", id)); Toast.show("Category deleted"); }
-      catch (err) { console.error(err); Toast.show("Delete failed — check Firestore rules", "error"); }
-    });
-  }));
-}
-
-function openCategoryModal(id = null) {
-  categoryForm.reset();
-  document.querySelectorAll("#categoryForm .field").forEach(f => f.classList.remove("invalid"));
-  document.getElementById("categoryId").value = "";
-  if (id) {
-    const cat = liveCategories.find(c => c.id === id);
-    categoryModalTitle.textContent = "Edit Category";
-    document.getElementById("categoryId").value = cat.id;
-    document.getElementById("categoryName").value = cat.categoryName;
-    document.getElementById("categoryIcon").value = cat.icon || "";
-  } else {
-    categoryModalTitle.textContent = "Add Category";
-  }
-  openModal(categoryModal);
-}
-document.getElementById("openAddCategory").addEventListener("click", () => openCategoryModal());
-
-categoryForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const id = document.getElementById("categoryId").value;
-  const nameInput = document.getElementById("categoryName");
-  const name = nameInput.value.trim();
-  const icon = document.getElementById("categoryIcon").value.trim() || "🗂️";
-  if (!name) { nameInput.closest(".field").classList.add("invalid"); return; }
-  nameInput.closest(".field").classList.remove("invalid");
-
-  categorySaveBtn.disabled = true;
-  categorySaveBtn.innerHTML = `<span class="spinner"></span> Saving…`;
-  try {
-    if (id) {
-      await updateDoc(doc(db, "categories", id), { categoryName: name, icon });
-      Toast.show("Category updated");
-    } else {
-      const displayOrder = liveCategories.length ? Math.max(...liveCategories.map(c => c.displayOrder || 0)) + 1 : 1;
-      await addDoc(collection(db, "categories"), { categoryName: name, icon, displayOrder });
-      Toast.show("Category published");
-    }
-    closeModal(categoryModal);
-  } catch (err) {
-    console.error(err);
-    Toast.show("Save failed — check Firestore rules / login", "error");
-  } finally {
-    categorySaveBtn.disabled = false;
-    categorySaveBtn.textContent = "Save Category";
-  }
-});
-
-function populateCategorySelect(selectedId = null) {
-  const sel = document.getElementById("mapCategory");
-  sel.innerHTML = liveCategories.length
-    ? liveCategories.map(c => `<option value="${c.id}" ${c.id===selectedId?"selected":""}>${escapeHTML(c.icon||"")} ${escapeHTML(c.categoryName)}</option>`).join("")
-    : `<option value="">No categories yet — add one first</option>`;
-}
-
-function renderMaps() {
-  const term = adminMapTerm.trim().toLowerCase();
-  const maps = liveMaps.filter(m => {
-    if (!term) return true;
-    const cat = liveCategories.find(c => c.id === m.category);
-    return [m.title, m.description, m.mapCode, cat ? cat.categoryName : ""].join(" ").toLowerCase().includes(term);
-  });
-  mapList.innerHTML = maps.length ? maps.map(m => {
-    const cat = liveCategories.find(c => c.id === m.category);
-    return `<div class="data-row" data-id="${m.id}">
-      <img class="thumb" src="${escapeHTML((m.images && m.images[0]) || "")}" alt="${escapeHTML(m.title)}" loading="lazy" onerror="this.style.opacity=0.25">
-      <div class="row-main">
-        <div class="row-title">${escapeHTML(m.title)}</div>
-        <div class="row-sub">
-          <span>${escapeHTML(cat ? cat.categoryName : "Uncategorized")}</span>
-          <span>· <code>${escapeHTML(m.mapCode)}</code></span>
-          <span>· ${(m.images||[]).length} img${(m.images||[]).length===1?"":"s"}</span>
-          <span>· ${timeAgo(m.updatedAt)}</span>
+function cardHTML(map) {
+  const cat = categoryById(map.category);
+  const isTrending = cat && cat.categoryName.toLowerCase() === "trending";
+  return `<article class="map-card" data-id="${map.id}">
+      ${buildSliderHTML(map.images, map.title)}
+      <div class="card-body">
+        <div class="card-top-row">
+          <span class="cat-tag">${escapeHTML(cat ? cat.categoryName : "Uncategorized")}</span>
+          ${isTrending ? `<span class="trending-badge">${Icons.fire} Hot</span>` : ""}
+        </div>
+        <h3 class="map-title">${escapeHTML(map.title)}</h3>
+        <p class="map-desc">${escapeHTML(map.description)}</p>
+        <div class="code-row">
+          <div><span class="code-label">Map Code</span><span class="code-value">${escapeHTML(map.mapCode)}</span></div>
+          <button type="button" class="copy-btn" data-code="${escapeHTML(map.mapCode)}">${Icons.copy} Copy</button>
         </div>
       </div>
-      <div class="row-actions">
-        <button class="icon-btn" data-edit-map title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg></button>
-        <button class="icon-btn danger" data-delete-map title="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/></svg></button>
-      </div>
-    </div>`;
-  }).join("") : `<div class="empty-mini">
-      ${Icons.emptyMap}
-      <div>No maps match yet.</div>
-      <button class="btn btn-primary btn-sm empty-cta" onclick="document.getElementById('openAddMap').click()">Add Map</button>
-    </div>`;
-
-  mapList.querySelectorAll("[data-edit-map]").forEach(btn => btn.addEventListener("click", () => openMapModal(btn.closest(".data-row").dataset.id)));
-  mapList.querySelectorAll("[data-delete-map]").forEach(btn => btn.addEventListener("click", () => {
-    const id = btn.closest(".data-row").dataset.id;
-    const map = liveMaps.find(m => m.id === id);
-    askConfirm("Delete map?", `"${map.title}" will be permanently removed from the library.`, async () => {
-      try { await deleteDoc(doc(db, "maps", id)); Toast.show("Map deleted"); }
-      catch (err) { console.error(err); Toast.show("Delete failed — check Firestore rules", "error"); }
-    });
-  }));
+    </article>`;
 }
 
-mapSearchAdmin.addEventListener("input", debounce(() => { adminMapTerm = mapSearchAdmin.value; renderMaps(); }, 200));
-mapDescription.addEventListener("input", () => { descCharCount.textContent = mapDescription.value.length; });
+function emptyStateHTML() {
+  return `<div class="empty-state">${Icons.empty}<h3>No maps found</h3><p>Try a different search term or category.</p></div>`;
+}
 
-function renderImagePreviews() {
-  imagePreviewGrid.innerHTML = pendingImageUrls.map((url, i) => `
-    <div class="image-preview">
-      <img src="${escapeHTML(url)}" alt="Preview ${i+1}" onerror="this.parentElement.classList.add('broken')">
-      ${i === 0 ? '<span class="cover-badge">Cover</span>' : ""}
-      <button type="button" class="remove-img" data-remove-img="${i}">${Icons.close}</button>
+function renderGrid() {
+  const term = uiState.term.trim().toLowerCase();
+  const results = liveMaps.filter(m => {
+    const cat = categoryById(m.category);
+    const matchesCategory = uiState.category === "all" || m.category === uiState.category;
+    if (!matchesCategory) return false;
+    if (!term) return true;
+    const haystack = [m.title, m.description, m.mapCode, cat ? cat.categoryName : ""].join(" ").toLowerCase();
+    return haystack.includes(term);
+  });
+
+  resultMeta.innerHTML = `<span class="live-pill"><span class="lp-dot"></span>Live</span> · <strong>${results.length}</strong> map${results.length===1?"":"s"} found`;
+
+  if (results.length === 0) { grid.innerHTML = emptyStateHTML(); return; }
+  grid.innerHTML = results.map(cardHTML).join("");
+  grid.querySelectorAll(".slider").forEach(initSlider);
+  grid.querySelectorAll(".copy-btn").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const ok = await copyToClipboard(btn.dataset.code);
+      if (ok) {
+        Toast.show("Copied Successfully");
+        btn.classList.add("copied");
+        const original = btn.innerHTML;
+        btn.innerHTML = `${Icons.copy} Copied`;
+        setTimeout(() => { btn.classList.remove("copied"); btn.innerHTML = original; }, 1400);
+      } else {
+        Toast.show("Copy failed — try manually");
+      }
+    });
+  });
+}
+
+function renderSkeletons(count = 6) {
+  grid.innerHTML = Array.from({length: count}).map(() => `
+    <div class="skeleton-card">
+      <div class="skeleton-img"></div>
+      <div class="skeleton-line w40"></div>
+      <div class="skeleton-line w90"></div>
+      <div class="skeleton-line w60"></div>
     </div>`).join("");
-  imagePreviewGrid.querySelectorAll("[data-remove-img]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      pendingImageUrls.splice(Number(btn.dataset.removeImg), 1);
-      renderImagePreviews();
-    });
-  });
 }
 
-function addImageUrl() {
-  const url = mapImageUrlInput.value.trim();
-  if (!url) return;
-  try { new URL(url); } catch (e) { Toast.show("Yeh ek valid URL nahi lag raha", "error"); return; }
-  pendingImageUrls.push(url);
-  mapImageUrlInput.value = "";
-  mapImagesError.parentElement.classList.remove("invalid");
-  renderImagePreviews();
-  mapImageUrlInput.focus();
-}
-addImageUrlBtn.addEventListener("click", addImageUrl);
-mapImageUrlInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") { e.preventDefault(); addImageUrl(); }
+/* ---------------- Search wiring ---------------- */
+const debouncedSearch = debounce(() => { uiState.term = searchInput.value; renderGrid(); }, 180);
+searchInput.addEventListener("input", () => {
+  searchClear.classList.toggle("visible", searchInput.value.length > 0);
+  debouncedSearch();
+});
+searchClear.addEventListener("click", () => {
+  searchInput.value = ""; searchClear.classList.remove("visible"); uiState.term = ""; renderGrid(); searchInput.focus();
 });
 
-function openMapModal(id = null) {
-  mapForm.reset();
-  document.querySelectorAll("#mapForm .field").forEach(f => f.classList.remove("invalid"));
-  pendingImageUrls = [];
-  document.getElementById("mapId").value = "";
-  descCharCount.textContent = "0";
-  populateCategorySelect();
-  if (id) {
-    const map = liveMaps.find(m => m.id === id);
-    mapModalTitle.textContent = "Edit Craftland Map";
-    document.getElementById("mapId").value = map.id;
-    document.getElementById("mapTitle").value = map.title;
-    document.getElementById("mapDescription").value = map.description;
-    descCharCount.textContent = (map.description || "").length;
-    document.getElementById("mapCode").value = map.mapCode;
-    populateCategorySelect(map.category);
-    pendingImageUrls = [...(map.images || [])];
-  } else {
-    mapModalTitle.textContent = "Add Craftland Map";
-  }
-  renderImagePreviews();
-  openModal(mapModal);
-}
-document.getElementById("openAddMap").addEventListener("click", () => {
-  if (!liveCategories.length) { Toast.show("Add a category first", "error"); return; }
-  openMapModal();
+/* ============================================================
+   REAL-TIME FIRESTORE LISTENERS
+   Any add/edit/delete in the Admin Panel reflects here instantly —
+   no page reload needed, because onSnapshot keeps a live connection.
+   ============================================================ */
+renderSkeletons();
+
+const categoriesQuery = query(collection(db, "categories"), orderBy("displayOrder", "asc"));
+onSnapshot(categoriesQuery, (snap) => {
+  liveCategories = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  connBanner.classList.remove("show");
+  renderFilterBar();
+  renderGrid();
+  firstCatsLoad = false;
+}, (err) => {
+  console.error("Categories listener error:", err);
+  connBanner.classList.add("show");
 });
 
-mapForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const id = document.getElementById("mapId").value;
-  const title = document.getElementById("mapTitle").value.trim();
-  const description = document.getElementById("mapDescription").value.trim();
-  const category = document.getElementById("mapCategory").value;
-  const mapCode = document.getElementById("mapCode").value.trim();
-
-  let valid = true;
-  [["mapTitle",title], ["mapDescription",description], ["mapCode",mapCode]].forEach(([fid,val]) => {
-    const field = document.getElementById(fid).closest(".field");
-    field.classList.toggle("invalid", !val);
-    if (!val) valid = false;
-  });
-  const imagesField = mapImagesError.parentElement;
-  if (!pendingImageUrls.length) { imagesField.classList.add("invalid"); valid = false; }
-  else { imagesField.classList.remove("invalid"); }
-  if (!valid) return;
-
-  const payload = {
-    title, description, category, mapCode,
-    images: pendingImageUrls,
-    updatedAt: serverTimestamp(),
-  };
-
-  mapSaveBtn.disabled = true;
-  mapSaveBtn.innerHTML = `<span class="spinner"></span> Publishing…`;
-  try {
-    if (id) {
-      await updateDoc(doc(db, "maps", id), payload);
-      Toast.show("Map updated");
-    } else {
-      await addDoc(collection(db, "maps"), { ...payload, createdAt: serverTimestamp() });
-      Toast.show("Map published");
-    }
-    closeModal(mapModal);
-  } catch (err) {
-    console.error(err);
-    Toast.show("Publish failed — check Firestore rules / login", "error");
-  } finally {
-    mapSaveBtn.disabled = false;
-    mapSaveBtn.textContent = "Publish Map";
-  }
+const mapsQuery = query(collection(db, "maps"), orderBy("createdAt", "desc"));
+onSnapshot(mapsQuery, (snap) => {
+  liveMaps = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  connBanner.classList.remove("show");
+  renderGrid();
+  firstMapsLoad = false;
+}, (err) => {
+  console.error("Maps listener error:", err);
+  connBanner.classList.add("show");
+  resultMeta.textContent = "Connection error — see banner below.";
 });
 </script>
 </body>
