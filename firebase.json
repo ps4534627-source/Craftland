@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "site": "craftland",
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
