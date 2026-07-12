@@ -1,4 +1,4 @@
-name: Deploy to Craftland.web.app
+name: Deploy to craftlandmap.web.app
 on:
   push:
     branches:
