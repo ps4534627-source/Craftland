@@ -13,4 +13,4 @@ jobs:
         firebaseServiceAccount: '${{ secrets.FIREBASE_TOKEN }}'
         channelId: live
         projectId: craftland-3a36f
-        target: craftlandmap
+        site: craftlandmap
