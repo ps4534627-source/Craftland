@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "craftland",
+    "site": "craftlandmap",
     "public": ".",
     "ignore": [
       "firebase.json",
