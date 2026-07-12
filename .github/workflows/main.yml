@@ -1,18 +1,16 @@
-name: Deploy to craftlandmap.web.app
+name: Deploy to Firebase Hosting
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
 jobs:
-  deploy:
+  build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      
-      - name: Deploy to Firebase
-        uses: w9jds/firebase-action@master
-        with:
-          args: deploy --only hosting:Craftland 
-        env:
-          GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          PROJECT_ID: craftland-3a36f
+    - uses: actions/checkout@v3
+    - uses: FirebaseExtended/action-hosting-deploy@v0
+      with:
+        repoToken: '${{ secrets.GITHUB_TOKEN }}'
+        firebaseServiceAccount: '${{ secrets.FIREBASE_TOKEN }}'
+        channelId: live
+        projectId: craftland-3a36f
+        target: craftlandmap
