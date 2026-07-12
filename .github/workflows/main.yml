@@ -15,4 +15,4 @@ jobs:
           args: deploy --only hosting:Craftland 
         env:
           GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          PROJECT_ID: CRAFTLAND
+          PROJECT_ID: craftland-3a36f
