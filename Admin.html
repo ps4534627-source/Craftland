@@ -1,1 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Admin Panel — Craftland Map Library</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void: #0a0e14; --surface-0: #10141c; --surface-1: #161b25; --surface-2: #1d2430; --surface-3: #232b39;
+  --glass-fill: rgba(255,255,255,0.045); --glass-fill-strong: rgba(255,255,255,0.085);
+  --glass-border: rgba(255,255,255,0.09); --glass-border-strong: rgba(255,255,255,0.17);
+  --ember: #ff6a3d; --ember-deep: #ff3d1a; --ember-soft: rgba(255,106,61,0.16);
+  --cyan: #00e5cc; --cyan-soft: rgba(0,229,204,0.14); --gold: #ffc857; --gold-soft: rgba(255,200,87,.14);
+  --danger: #ff4d6a; --danger-soft: rgba(255,77,106,.14); --success: #37e08a; --success-soft: rgba(55,224,138,.14);
+  --text-hi: #f3f5f8; --text-mid: #b7bec9; --text-low: #7d879a; --text-ghost: #4c5566;
+  --grad-ember: linear-gradient(135deg, var(--ember) 0%, var(--ember-deep) 100%);
+  --grad-cyan: linear-gradient(135deg, #00e5cc 0%, #00a8ff 100%);
+  --grad-hero: radial-gradient(120% 100% at 15% -10%, rgba(255,106,61,0.14) 0%, rgba(10,14,20,0) 55%),
+               radial-gradient(90% 70% at 100% 0%, rgba(0,229,204,0.10) 0%, rgba(10,14,20,0) 55%);
+  --font-display: "Chakra Petch", sans-serif; --font-body: "Inter", -apple-system, sans-serif; --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --fs-xs: .75rem; --fs-sm: .8375rem; --fs-base: .9375rem; --fs-md: 1.05rem; --fs-lg: 1.25rem; --fs-xl: 1.6rem; --fs-2xl: 2.1rem;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 28px; --sp-7: 40px; --sp-8: 56px;
+  --r-sm: 10px; --r-md: 16px; --r-lg: 22px; --r-xl: 28px; --r-pill: 999px;
+  --shadow-card: 0 8px 30px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.03) inset;
+  --shadow-float: 0 16px 44px rgba(0,0,0,.45);
+  --shadow-ember-glow: 0 0 0 1px rgba(255,106,61,.35), 0 8px 24px rgba(255,106,61,.18);
+  --shadow-cyan-glow: 0 0 0 1px rgba(0,229,204,.35), 0 8px 24px rgba(0,229,204,.16);
+  --ease-out: cubic-bezier(.16,1,.3,1); --ease-spring: cubic-bezier(.34,1.56,.64,1);
+  --dur-fast: 150ms; --dur-base: 260ms; --dur-slow: 420ms;
+}
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.001ms!important; transition-duration:.001ms!important; } }
+* { box-sizing: border-box; margin:0; padding:0; }
+html { -webkit-tap-highlight-color: transparent; }
+body { background: var(--void); color: var(--text-hi); font-family: var(--font-body); font-size: var(--fs-base); min-height:100vh; overflow-x:hidden; }
+body::before { content:""; position:fixed; inset:0; z-index:-2;
+  background-image: radial-gradient(1px 1px at 22% 28%, rgba(255,255,255,.05) 1px, transparent 1px),
+                     radial-gradient(1px 1px at 68% 62%, rgba(255,255,255,.045) 1px, transparent 1px),
+                     linear-gradient(var(--void), var(--void));
+  background-size: 150px 150px, 190px 190px, 100% 100%; }
+body::after { content:""; position:fixed; inset:0; z-index:-1; background: var(--grad-hero); pointer-events:none; }
+button { font-family: inherit; cursor:pointer; }
+img { max-width:100%; display:block; }
+::selection { background: var(--ember-soft); color: var(--text-hi); }
 
+::-webkit-scrollbar { width:8px; height:8px; }
+::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: var(--r-pill); }
+::-webkit-scrollbar-track { background: transparent; }
+
+.login-screen { min-height:100vh; display:flex; align-items:center; justify-content:center; padding: var(--sp-4); position:relative; }
+.login-glow { position:absolute; width:480px; height:480px; border-radius:50%; background: radial-gradient(circle, rgba(255,106,61,.14) 0%, transparent 70%); top:-140px; left:-140px; pointer-events:none; filter: blur(10px); }
+.login-glow.two { background: radial-gradient(circle, rgba(0,229,204,.11) 0%, transparent 70%); top:auto; left:auto; bottom:-160px; right:-160px; }
+.login-card { position:relative; width:100%; max-width:400px; background: var(--glass-fill); border:1px solid var(--glass-border); border-radius: var(--r-xl); padding: var(--sp-7) var(--sp-6); backdrop-filter: blur(24px); box-shadow: var(--shadow-float); animation: card-in var(--dur-slow) var(--ease-out) both; }
+@keyframes card-in { from{opacity:0; transform: translateY(18px) scale(.98);} to{opacity:1; transform:translateY(0) scale(1);} }
+.login-mark { width:56px; height:56px; margin:0 auto var(--sp-4); border-radius: var(--r-md); background: var(--grad-ember); display:flex; align-items:center; justify-content:center; box-shadow: var(--shadow-ember-glow); }
+.login-mark svg { width:28px; height:28px; }
+.login-card h1 { font-family: var(--font-display); text-align:center; font-size: var(--fs-lg); font-weight:600; margin-bottom:4px; letter-spacing:.01em; }
+.login-card .sub { text-align:center; color: var(--text-low); font-size: var(--fs-sm); margin-bottom: var(--sp-6); }
+.field { margin-bottom: var(--sp-4); }
+.field label { display:flex; align-items:center; gap:6px; font-size: var(--fs-xs); color: var(--text-mid); margin-bottom:7px; font-weight:600; letter-spacing:.02em; }
+.field .req-dot { width:4px; height:4px; border-radius:50%; background: var(--ember); }
+.field input, .field textarea, .field select {
+  width:100%; background: var(--surface-0); border:1px solid var(--glass-border); border-radius: var(--r-sm);
+  padding:12px 14px; color: var(--text-hi); font-size: var(--fs-base); font-family: inherit; outline:none;
+  transition: border-color var(--dur-base), box-shadow var(--dur-base), background var(--dur-base);
+}
+.field input:hover, .field textarea:hover, .field select:hover { border-color: var(--glass-border-strong); }
+.field input:focus, .field textarea:focus, .field select:focus { border-color: rgba(255,106,61,.55); box-shadow: 0 0 0 3px rgba(255,106,61,.14); background: var(--surface-1); }
+.field textarea { resize:vertical; min-height:88px; line-height:1.5; }
+.field select { appearance:none; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237d879a' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>"); background-repeat:no-repeat; background-position: right 12px center; background-size:16px; padding-right:36px; }
+.field-hint { font-size:11.5px; color: var(--text-ghost); margin-top:6px; line-height:1.5; }
+.field-hint a { color: var(--cyan); text-decoration: underline; text-underline-offset:2px; }
+.field-error { font-size:11px; color: var(--danger); margin-top:6px; display:none; }
+.field.invalid input, .field.invalid textarea, .field.invalid select { border-color: var(--danger); }
+.field.invalid .field-error { display:block; }
+
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; border:none; border-radius: var(--r-sm); padding:12px 18px; font-weight:700; font-size: var(--fs-sm); letter-spacing:.01em; transition: transform var(--dur-fast) var(--ease-spring), box-shadow var(--dur-base), opacity var(--dur-base), background var(--dur-base); position:relative; overflow:hidden; }
+.btn svg { width:15px; height:15px; flex-shrink:0; }
+.btn:active { transform: scale(.96); }
+.btn-primary { background: var(--grad-ember); color:#200a03; width:100%; }
+.btn-primary:hover { box-shadow: var(--shadow-ember-glow); }
+.btn-secondary { background: var(--glass-fill); color: var(--text-hi); border:1px solid var(--glass-border-strong); }
+.btn-secondary:hover { background: var(--glass-fill-strong); }
+.btn-danger { background: var(--danger-soft); color: var(--danger); border:1px solid rgba(255,77,106,.35); }
+.btn-danger:hover { background: rgba(255,77,106,.24); }
+.btn-cyan { background: var(--grad-cyan); color:#04241f; }
+.btn-cyan:hover { box-shadow: var(--shadow-cyan-glow); }
+.btn-sm { padding:9px 14px; font-size: var(--fs-xs); }
+.btn:disabled { opacity:.5; pointer-events:none; }
+.btn .spinner { width:14px; height:14px; border-radius:50%; border:2px solid rgba(0,0,0,.25); border-top-color: currentColor; animation: spin .7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.login-error { display:flex; align-items:center; gap:8px; background: var(--danger-soft); border:1px solid rgba(255,77,106,.35); color: var(--danger); font-size: var(--fs-xs); padding:11px 13px; border-radius: var(--r-sm); margin-bottom: var(--sp-4); animation: shake .35s var(--ease-out); }
+.login-error svg { width:15px; height:15px; flex-shrink:0; }
+.login-error:not(.show) { display:none; }
+@keyframes shake { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-5px);} 75%{transform:translateX(5px);} }
+
+.login-demo-note { margin-top: var(--sp-5); font-size:11.5px; color: var(--text-ghost); text-align:center; line-height:1.7; padding-top: var(--sp-4); border-top:1px solid var(--glass-border); }
+.login-demo-note b { color: var(--text-low); }
+.login-demo-note code { background: var(--surface-0); padding:2px 6px; border-radius:5px; color: var(--cyan); font-family: var(--font-mono); }
+
+.admin-app { display:none; min-height:100vh; }
+.admin-app.active { display:block; animation: app-in .4s var(--ease-out); }
+@keyframes app-in { from { opacity:0; } to { opacity:1; } }
+
+.admin-topbar { position:sticky; top:0; z-index:50; background: rgba(16,20,28,.72); backdrop-filter: blur(22px) saturate(160%); -webkit-backdrop-filter: blur(22px) saturate(160%); border-bottom:1px solid var(--glass-border); padding: var(--sp-3) var(--sp-4); display:flex; align-items:center; justify-content:space-between; gap: var(--sp-3); }
+.brand-mini { display:flex; align-items:center; gap:11px; }
+.brand-mini .dot-mark { width:32px; height:32px; border-radius:9px; background: var(--grad-ember); flex-shrink:0; box-shadow: var(--shadow-ember-glow); position:relative; }
+.brand-mini .dot-mark::after { content:""; position:absolute; inset:0; border-radius:9px; background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.35), transparent 60%); }
+.brand-mini .brand-copy { display:flex; flex-direction:column; line-height:1.15; }
+.brand-mini .brand-copy .name { font-family: var(--font-display); font-weight:600; font-size: var(--fs-sm); }
+.brand-mini .brand-copy .tag { font-size:9.5px; color: var(--text-ghost); letter-spacing:.1em; text-transform:uppercase; }
+
+.topbar-right { display:flex; align-items:center; gap:10px; }
+.user-chip { display:flex; align-items:center; gap:8px; background: var(--glass-fill); border:1px solid var(--glass-border); border-radius: var(--r-pill); padding:5px 12px 5px 5px; }
+.user-chip .avatar { width:24px; height:24px; border-radius:50%; background: var(--grad-cyan); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#04241f; flex-shrink:0; }
+.user-chip .user-email { font-size:11.5px; color: var(--text-mid); max-width:130px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.live-indicator { display:flex; align-items:center; gap:5px; font-size:10px; color: var(--success); font-family: var(--font-mono); letter-spacing:.04em; }
+.live-indicator .lp-dot { width:6px; height:6px; border-radius:50%; background: var(--success); box-shadow:0 0 6px var(--success); animation: pulse-dot 1.6s ease-in-out infinite; }
+@keyframes pulse-dot { 0%,100%{opacity:1; transform:scale(1);} 50%{opacity:.4; transform:scale(.7);} }
+
+.admin-tabs { display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; padding: var(--sp-3) var(--sp-4) 0; max-width:1100px; margin:0 auto; }
+.admin-tabs::-webkit-scrollbar{display:none;}
+.admin-tab { flex-shrink:0; background:transparent; border:1px solid transparent; color: var(--text-low); font-weight:600; font-size: var(--fs-sm); padding:10px 16px; border-radius: var(--r-sm); display:flex; align-items:center; gap:8px; transition: all var(--dur-base); }
+.admin-tab svg { width:15px; height:15px; }
+.admin-tab.active { background: var(--glass-fill-strong); color: var(--text-hi); border-color: var(--glass-border-strong); box-shadow: 0 4px 14px rgba(0,0,0,.25); }
+.admin-tab:hover:not(.active) { color: var(--text-mid); background: var(--glass-fill); }
+.admin-tab .tab-count { font-family: var(--font-mono); font-size:10px; background: var(--surface-2); padding:2px 6px; border-radius: var(--r-pill); color: var(--text-low); }
+.admin-tab.active .tab-count { background: rgba(0,0,0,.2); color: inherit; }
+
+.admin-main { padding: var(--sp-5) var(--sp-4) var(--sp-8); max-width:1100px; margin:0 auto; }
+.admin-panel { display:none; }
+.admin-panel.active { display:block; animation: fade-up var(--dur-slow) var(--ease-out) both; }
+@keyframes fade-up { from{opacity:0; transform: translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+.panel-head { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom: var(--sp-5); gap: var(--sp-3); flex-wrap:wrap; }
+.panel-head h2 { font-family: var(--font-display); font-size: var(--fs-xl); font-weight:600; }
+.panel-head p { color: var(--text-low); font-size: var(--fs-sm); margin-top:3px; }
+
+.stat-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: var(--sp-4); margin-bottom: var(--sp-6); }
+.stat-card { background: var(--glass-fill); border:1px solid var(--glass-border); border-radius: var(--r-lg); padding: var(--sp-4); transition: border-color var(--dur-base), transform var(--dur-base); }
+.stat-card:hover { border-color: var(--glass-border-strong); transform: translateY(-2px); }
+.stat-card .stat-icon { width:36px; height:36px; border-radius: var(--r-sm); display:flex; align-items:center; justify-content:center; margin-bottom: var(--sp-3); }
+.stat-icon svg { width:18px; height:18px; }
+.stat-icon.ember { background: var(--ember-soft); color: var(--ember); }
+.stat-icon.cyan { background: var(--cyan-soft); color: var(--cyan); }
+.stat-icon.gold { background: var(--gold-soft); color: var(--gold); }
+.stat-value { font-family: var(--font-display); font-size: var(--fs-2xl); font-weight:700; }
+.stat-label { font-size: var(--fs-xs); color: var(--text-low); margin-top:2px; }
+
+.breakdown-card { background: var(--glass-fill); border:1px solid var(--glass-border); border-radius: var(--r-lg); padding: var(--sp-5); margin-bottom: var(--sp-5); }
+.breakdown-card h3 { font-family: var(--font-display); font-size: var(--fs-md); margin-bottom: var(--sp-4); display:flex; align-items:center; gap:8px; }
+.breakdown-row { display:flex; align-items:center; gap: var(--sp-3); margin-bottom: var(--sp-3); }
+.breakdown-row:last-child { margin-bottom:0; }
+.breakdown-row .b-label { width:115px; flex-shrink:0; font-size: var(--fs-sm); color: var(--text-mid); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.breakdown-row .b-track { flex:1; height:9px; background: var(--surface-0); border-radius: var(--r-pill); overflow:hidden; }
+.breakdown-row .b-fill { height:100%; background: var(--grad-ember); border-radius: var(--r-pill); transition: width .6s var(--ease-out); }
+.breakdown-row .b-count { width:28px; text-align:right; font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-low); }
+
+.quick-actions { display:flex; gap: var(--sp-3); flex-wrap:wrap; }
+.quick-actions .btn { flex:1; min-width:160px; }
+
+.list-toolbar { display:flex; gap: var(--sp-3); margin-bottom: var(--sp-4); flex-wrap:wrap; }
+.list-toolbar .field { flex:1; min-width:200px; margin-bottom:0; position:relative; }
+.list-toolbar .field svg.search-icon { position:absolute; left:14px; top:50%; transform:translateY(-50%); width:16px; height:16px; color: var(--text-ghost); pointer-events:none; }
+.list-toolbar .field input { padding-left:38px; }
+
+.data-list { display:flex; flex-direction:column; gap: var(--sp-3); }
+.data-row { display:flex; align-items:center; gap: var(--sp-4); background: var(--glass-fill); border:1px solid var(--glass-border); border-radius: var(--r-lg); padding: var(--sp-3) var(--sp-4); transition: border-color var(--dur-base), transform var(--dur-base), background var(--dur-base); animation: row-in .35s var(--ease-out) both; }
+@keyframes row-in { from{ opacity:0; transform: translateY(8px);} to{ opacity:1; transform: translateY(0);} }
+.data-row:hover { border-color: var(--glass-border-strong); background: var(--glass-fill-strong); }
+.data-row .thumb { width:58px; height:58px; border-radius: var(--r-sm); object-fit:cover; flex-shrink:0; background: var(--surface-0); border:1px solid var(--glass-border); }
+.data-row .cat-emoji { width:46px; height:46px; border-radius: var(--r-sm); background: var(--surface-0); border:1px solid var(--glass-border); display:flex; align-items:center; justify-content:center; font-size:21px; flex-shrink:0; }
+.row-main { flex:1; min-width:0; }
+.row-main .row-title { font-weight:600; font-size: var(--fs-base); margin-bottom:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.row-main .row-sub { font-size: var(--fs-xs); color: var(--text-low); display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.row-main .row-sub code { font-family: var(--font-mono); color: var(--cyan); background: rgba(0,229,204,.08); padding:1px 6px; border-radius:5px; }
+.row-actions { display:flex; gap:8px; flex-shrink:0; }
+.icon-btn { width:36px; height:36px; border-radius: var(--r-sm); display:flex; align-items:center; justify-content:center; background: var(--glass-fill); border:1px solid var(--glass-border); color: var(--text-mid); transition: all var(--dur-base); }
+.icon-btn svg { width:15px; height:15px; }
+.icon-btn:hover { color: var(--text-hi); background: var(--glass-fill-strong); transform: translateY(-1px); }
+.icon-btn.danger:hover { color: var(--danger); border-color: rgba(255,77,106,.4); background: var(--danger-soft); }
+
+.empty-mini { text-align:center; color: var(--text-low); font-size: var(--fs-sm); padding: var(--sp-7) var(--sp-5); border:1.5px dashed var(--glass-border); border-radius: var(--r-lg); }
+.empty-mini svg { width:34px; height:34px; color: var(--text-ghost); margin-bottom: var(--sp-2); }
+.empty-mini .empty-cta { margin-top: var(--sp-3); }
+
+.img-url-input-row { display:flex; gap:8px; }
+.img-url-input-row input { flex:1; }
+.img-url-input-row .btn { flex-shrink:0; }
+.image-preview-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(78px,1fr)); gap:9px; margin-top: var(--sp-3); }
+.image-preview { position:relative; aspect-ratio:1; border-radius:11px; overflow:hidden; border:1px solid var(--glass-border); background: var(--surface-0); }
+.image-preview img { width:100%; height:100%; object-fit:cover; }
+.image-preview .cover-badge { position:absolute; bottom:3px; left:3px; background: rgba(255,106,61,.9); color:#200a03; font-size:8.5px; font-weight:700; padding:2px 6px; border-radius:5px; letter-spacing:.03em; text-transform:uppercase; }
+.image-preview .remove-img { position:absolute; top:3px; right:3px; width:21px; height:21px; border-radius:50%; background: rgba(0,0,0,.65); color:#fff; display:flex; align-items:center; justify-content:center; border:none; transition: background var(--dur-fast); }
+.image-preview .remove-img:hover { background: var(--danger); }
+.image-preview .remove-img svg { width:10px; height:10px; }
+.image-preview.broken { display:flex; align-items:center; justify-content:center; }
+.image-preview.broken::before { content:"⚠ broken link"; font-size:9px; color: var(--text-ghost); text-align:center; padding:4px; }
+.image-preview.broken img { display:none; }
+
+.hosting-hint { display:flex; gap:10px; background: var(--cyan-soft); border:1px solid rgba(0,229,204,.28); border-radius: var(--r-md); padding: var(--sp-3) var(--sp-4); margin-top: var(--sp-3); font-size: var(--fs-xs); color: var(--text-mid); line-height:1.6; }
+.hosting-hint svg { width:16px; height:16px; color: var(--cyan); flex-shrink:0; margin-top:1px; }
+.hosting-hint a { color: var(--cyan); font-weight:600; text-decoration: underline; text-underline-offset:2px; }
+
+.modal-overlay { position:fixed; inset:0; z-index:200; background: rgba(6,8,12,.68); backdrop-filter: blur(7px); display:none; align-items:flex-end; justify-content:center; }
+.modal-overlay.open { display:flex; animation: overlay-in var(--dur-base) var(--ease-out); }
+@keyframes overlay-in { from{opacity:0;} to{opacity:1;} }
+.modal-sheet { width:100%; max-width:580px; max-height:92vh; overflow-y:auto; background: var(--surface-1); border:1px solid var(--glass-border-strong); border-radius: var(--r-xl) var(--r-xl) 0 0; padding: var(--sp-5) var(--sp-5) var(--sp-7); animation: sheet-in var(--dur-slow) var(--ease-out) both; }
+@keyframes sheet-in { from{ transform: translateY(34px); opacity:.5;} to{ transform: translateY(0); opacity:1;} }
+@media (min-width:640px){ .modal-overlay{ align-items:center; padding: var(--sp-4);} .modal-sheet{ border-radius: var(--r-xl);} }
+.modal-head { display:flex; align-items:center; justify-content:space-between; margin-bottom: var(--sp-5); position:sticky; top:0; }
+.modal-head-icon { width:34px; height:34px; border-radius: var(--r-sm); background: var(--ember-soft); color: var(--ember); display:flex; align-items:center; justify-content:center; margin-right:10px; flex-shrink:0; }
+.modal-head-icon svg { width:16px; height:16px; }
+.modal-head-title { display:flex; align-items:center; }
+.modal-head h3 { font-family: var(--font-display); font-size: var(--fs-lg); font-weight:600; }
+.modal-close { width:34px; height:34px; border-radius:50%; background: var(--glass-fill); border:1px solid var(--glass-border); color: var(--text-mid); display:flex; align-items:center; justify-content:center; transition: all var(--dur-base); flex-shrink:0; }
+.modal-close:hover { background: var(--glass-fill-strong); color: var(--text-hi); }
+.modal-close svg { width:14px; height:14px; }
+.form-row-2 { display:grid; grid-template-columns:1fr 1fr; gap: var(--sp-3); }
+@media (max-width:480px){ .form-row-2{ grid-template-columns:1fr;} }
+.modal-footer { display:flex; gap: var(--sp-3); margin-top: var(--sp-5); }
+.modal-footer .btn { flex:1; }
+.char-count { text-align:right; font-size:10.5px; color: var(--text-ghost); margin-top:4px; }
+
+.confirm-icon { width:44px; height:44px; border-radius: var(--r-md); background: var(--danger-soft); color: var(--danger); display:flex; align-items:center; justify-content:center; margin-bottom: var(--sp-4); }
+.confirm-icon svg { width:22px; height:22px; }
+
+@media (max-width:480px){ .brand-mini .brand-copy .tag{ display:none;} .user-chip .user-email { max-width:80px; } }
+
+.toast-stack { position:fixed; bottom: var(--sp-5); left:50%; transform:translateX(-50%); z-index:999; display:flex; flex-direction:column; gap:8px; align-items:center; width:max-content; max-width: calc(100% - 32px); }
+.toast { display:flex; align-items:center; gap:9px; background: rgba(20,26,20,.92); border:1px solid rgba(55,224,138,.4); color: var(--text-hi); padding:12px 18px; border-radius: var(--r-pill); font-size: var(--fs-sm); font-weight:500; box-shadow: var(--shadow-float); backdrop-filter: blur(14px); animation: toast-in var(--dur-base) var(--ease-spring) both; }
+.toast.error { border-color: rgba(255,77,106,.5); background: rgba(26,16,18,.92); }
+.toast.leaving { animation: toast-out var(--dur-base) var(--ease-out) both; }
+.toast svg { width:16px; height:16px; color: var(--success); flex-shrink:0; }
+.toast.error svg { color: var(--danger); }
+@keyframes toast-in { from{opacity:0; transform: translateY(14px) scale(.9);} to{opacity:1; transform:translateY(0) scale(1);} }
+@keyframes toast-out { to{ opacity:0; transform: translateY(8px) scale(.9);} }
+</style>
+</head>
+<body>
+
+<div class="login-screen" id="loginScreen">
+  <div class="login-glow"></div>
+  <div class="login-glow two"></div>
+  <div class="login-card">
+    <div class="login-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#160702" stroke-width="2.2"><path d="M12 2l2.5 6.5L21 9l-5 4.5L17.5 21 12 17l-5.5 4L8 13.5 3 9l6.5-.5z"/></svg>
+    </div>
+    <h1>Admin Access</h1>
+    <p class="sub">Sign in to manage Craftland maps &amp; categories</p>
+
+    <div class="login-error" id="loginError">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 8v5M12 16h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>
+      <span id="loginErrorText">Login failed. Check your email/password.</span>
+    </div>
+
+    <form id="loginForm">
+      <div class="field">
+        <label for="loginEmail">Admin email</label>
+        <input type="email" id="loginEmail" autocomplete="username" placeholder="you@example.com" required>
+      </div>
+      <div class="field">
+        <label for="loginPass">Password</label>
+        <input type="password" id="loginPass" autocomplete="current-password" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="btn btn-primary" id="loginSubmitBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
+        Sign In
+      </button>
+    </form>
+
+    <p class="login-demo-note">
+      Login <b>Firebase Authentication</b> se secure hai — sirf wahi account
+      likh (add/edit/delete) sakta hai jiska UID <code>firestore.rules</code>
+      me set hai. Storage use nahi ho raha (free Spark plan) — images
+      seedhe URL se add hoti hain.
+    </p>
+  </div>
+</div>
+
+<div class="admin-app" id="adminApp">
+  <div class="admin-topbar">
+    <div class="brand-mini">
+      <span class="dot-mark"></span>
+      <span class="brand-copy">
+        <span class="name">Craftland Admin</span>
+        <span class="tag">Control Center</span>
+      </span>
+    </div>
+    <div class="topbar-right">
+      <span class="live-indicator"><span class="lp-dot"></span>LIVE</span>
+      <div class="user-chip">
+        <span class="avatar" id="userAvatar">A</span>
+        <span class="user-email" id="userEmailLabel"></span>
+      </div>
+      <button type="button" class="icon-btn" id="logoutBtn" aria-label="Log out" title="Log out">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <nav class="admin-tabs" id="adminTabs">
+    <button class="admin-tab active" data-panel="dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+      Dashboard
+    </button>
+    <button class="admin-tab" data-panel="categories">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h6l2 2h8v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z"/></svg>
+      Categories <span class="tab-count" id="catTabCount">0</span>
+    </button>
+    <button class="admin-tab" data-panel="maps">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6l7-3 8 3 7-3v15l-7 3-8-3-7 3z"/><path d="M8 3v15M16 6v15"/></svg>
+      Maps <span class="tab-count" id="mapTabCount">0</span>
+    </button>
+  </nav>
+
+  <main class="admin-main">
+
+    <section class="admin-panel active" id="panel-dashboard">
+      <div class="panel-head">
+        <div><h2>Dashboard</h2><p>Live snapshot of your library — updates in real time.</p></div>
+      </div>
+      <div class="stat-grid" id="statGrid"></div>
+      <div class="breakdown-card">
+        <h3>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          Maps per category
+        </h3>
+        <div id="breakdownList"></div>
+      </div>
+      <div class="quick-actions">
+        <button class="btn btn-secondary" data-goto-tab="categories">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          New Category
+        </button>
+        <button class="btn btn-primary" data-goto-tab="maps" data-open-map>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          New Map
+        </button>
+      </div>
+    </section>
+
+    <section class="admin-panel" id="panel-categories">
+      <div class="panel-head">
+        <div><h2>Categories</h2><p>New categories appear on the homepage filter bar instantly.</p></div>
+        <button class="btn btn-primary btn-sm" id="openAddCategory">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          Add Category
+        </button>
+      </div>
+      <div class="data-list" id="categoryList"></div>
+    </section>
+
+    <section class="admin-panel" id="panel-maps">
+      <div class="panel-head">
+        <div><h2>Craftland Maps</h2><p>Add, edit or remove maps. Changes publish instantly — live on the homepage.</p></div>
+        <button class="btn btn-primary btn-sm" id="openAddMap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          Add Map
+        </button>
+      </div>
+      <div class="list-toolbar">
+        <div class="field">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="text" id="mapSearchAdmin" placeholder="Search maps in the admin list…">
+        </div>
+      </div>
+      <div class="data-list" id="mapList"></div>
+    </section>
+
+  </main>
+</div>
+
+<div class="modal-overlay" id="categoryModal">
+  <div class="modal-sheet">
+    <div class="modal-head">
+      <div class="modal-head-title">
+        <span class="modal-head-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h6l2 2h8v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z"/></svg></span>
+        <h3 id="categoryModalTitle">Add Category</h3>
+      </div>
+      <button class="modal-close" data-close-modal><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    </div>
+    <form id="categoryForm">
+      <input type="hidden" id="categoryId">
+      <div class="form-row-2">
+        <div class="field">
+          <label for="categoryIcon">Icon (emoji)</label>
+          <input type="text" id="categoryIcon" placeholder="🔥" maxlength="4">
+        </div>
+        <div class="field">
+          <label for="categoryName"><span class="req-dot"></span>Category name</label>
+          <input type="text" id="categoryName" placeholder="e.g. Sniper" required>
+          <div class="field-error">Please enter a category name.</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close-modal>Cancel</button>
+        <button type="submit" class="btn btn-primary" id="categorySaveBtn">Save Category</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="mapModal">
+  <div class="modal-sheet">
+    <div class="modal-head">
+      <div class="modal-head-title">
+        <span class="modal-head-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6l7-3 8 3 7-3v15l-7 3-8-3-7 3z"/><path d="M8 3v15M16 6v15"/></svg></span>
+        <h3 id="mapModalTitle">Add Craftland Map</h3>
+      </div>
+      <button class="modal-close" data-close-modal><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    </div>
+    <form id="mapForm">
+      <input type="hidden" id="mapId">
+
+      <div class="field">
+        <label for="mapTitle"><span class="req-dot"></span>Map title</label>
+        <input type="text" id="mapTitle" placeholder="e.g. Ember Ridge Arena" required>
+        <div class="field-error">Please enter a title.</div>
+      </div>
+
+      <div class="field">
+        <label for="mapDescription"><span class="req-dot"></span>Description</label>
+        <textarea id="mapDescription" placeholder="A short, punchy description of the map…" required maxlength="220"></textarea>
+        <div class="char-count"><span id="descCharCount">0</span>/220</div>
+        <div class="field-error">Please enter a description.</div>
+      </div>
+
+      <div class="form-row-2">
+        <div class="field">
+          <label for="mapCategory"><span class="req-dot"></span>Category</label>
+          <select id="mapCategory" required></select>
+        </div>
+        <div class="field">
+          <label for="mapCode"><span class="req-dot"></span>Map code</label>
+          <input type="text" id="mapCode" placeholder="e.g. 123-456-789" required>
+          <div class="field-error">Please enter a map code.</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label><span class="req-dot"></span>Images (paste image links)</label>
+        <div class="img-url-input-row">
+          <input type="url" id="mapImageUrlInput" placeholder="https://example.com/screenshot.jpg">
+          <button type="button" class="btn btn-secondary btn-sm" id="addImageUrlBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            Add
+          </button>
+        </div>
+        <div class="image-preview-grid" id="imagePreviewGrid"></div>
+        <div class="field-error" id="mapImagesError">Please add at least one image link.</div>
+
+        <div class="hosting-hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v5M12 16h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>
+          <span>
+            Firebase <b>Storage free plan par nahi use ho raha</b>, isliye
+            image file upload karne ke bajaye seedha <b>image URL paste</b>
+            karein. Free me screenshot host karne ke liye
+            <a href="https://imgbb.com" target="_blank" rel="noopener">imgbb.com</a>,
+            <a href="https://postimages.org" target="_blank" rel="noopener">postimages.org</a>
+            ya <a href="https://imgur.com" target="_blank" rel="noopener">imgur.com</a>
+            par image upload karke uska "direct link" yahan paste kar sakte hain.
+            Pehli image cover banti hai.
+          </span>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close-modal>Cancel</button>
+        <button type="submit" class="btn btn-primary" id="mapSaveBtn">Publish Map</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal-sheet" style="max-width:400px;">
+    <div class="modal-head">
+      <div class="modal-head-title" style="flex-direction:column; align-items:flex-start;">
+        <span class="confirm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/></svg></span>
+      </div>
+      <button class="modal-close" data-close-modal><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    </div>
+    <h3 id="confirmTitle" style="font-family:var(--font-display); font-size:var(--fs-lg); margin-bottom:8px;">Delete item?</h3>
+    <p id="confirmMessage" style="color:var(--text-mid); font-size:var(--fs-sm); line-height:1.6;">This action cannot be undone.</p>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-close-modal>Cancel</button>
+      <button type="button" class="btn btn-danger" id="confirmActionBtn">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+const firebaseConfig = {
+  apiKey: "PASTE_YOUR_API_KEY",
+  authDomain: "PASTE_YOUR_PROJECT.firebaseapp.com",
+  projectId: "PASTE_YOUR_PROJECT_ID",
+  storageBucket: "PASTE_YOUR_PROJECT.appspot.com",
+  messagingSenderId: "PASTE_YOUR_SENDER_ID",
+  appId: "PASTE_YOUR_APP_ID"
+};
+
+// NOTE: Firebase Storage is intentionally NOT imported or used here —
+// the free "Spark" plan doesn't include Storage, so images are added
+// as plain URLs (from any free image host) and saved straight into
+// the Firestore document. Only Auth + Firestore are needed below.
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+import {
+  getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
+} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+import {
+  getFirestore, collection, query, orderBy, onSnapshot,
+  addDoc, updateDoc, deleteDoc, doc, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let liveCategories = [];
+let liveMaps = [];
+let adminMapTerm = "";
+let pendingImageUrls = [];
+let unsubCategories = null, unsubMaps = null;
+
+const loginScreen = document.getElementById("loginScreen");
+const adminApp = document.getElementById("adminApp");
+const loginForm = document.getElementById("loginForm");
+const loginError = document.getElementById("loginError");
+const loginErrorText = document.getElementById("loginErrorText");
+const loginSubmitBtn = document.getElementById("loginSubmitBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+const userEmailLabel = document.getElementById("userEmailLabel");
+const userAvatar = document.getElementById("userAvatar");
+const tabs = document.querySelectorAll(".admin-tab");
+const catTabCount = document.getElementById("catTabCount");
+const mapTabCount = document.getElementById("mapTabCount");
+
+const statGrid = document.getElementById("statGrid");
+const breakdownList = document.getElementById("breakdownList");
+
+const categoryList = document.getElementById("categoryList");
+const categoryModal = document.getElementById("categoryModal");
+const categoryForm = document.getElementById("categoryForm");
+const categoryModalTitle = document.getElementById("categoryModalTitle");
+const categorySaveBtn = document.getElementById("categorySaveBtn");
+
+const mapList = document.getElementById("mapList");
+const mapModal = document.getElementById("mapModal");
+const mapForm = document.getElementById("mapForm");
+const mapModalTitle = document.getElementById("mapModalTitle");
+const mapSaveBtn = document.getElementById("mapSaveBtn");
+const mapSearchAdmin = document.getElementById("mapSearchAdmin");
+const mapDescription = document.getElementById("mapDescription");
+const descCharCount = document.getElementById("descCharCount");
+const mapImageUrlInput = document.getElementById("mapImageUrlInput");
+const addImageUrlBtn = document.getElementById("addImageUrlBtn");
+const imagePreviewGrid = document.getElementById("imagePreviewGrid");
+const mapImagesError = document.getElementById("mapImagesError");
+
+const confirmModal = document.getElementById("confirmModal");
+const confirmTitle = document.getElementById("confirmTitle");
+const confirmMessage = document.getElementById("confirmMessage");
+const confirmActionBtn = document.getElementById("confirmActionBtn");
+
+function escapeHTML(str = "") {
+  return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+}
+function debounce(fn, wait=200){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), wait); }; }
+function timeAgo(ts) {
+  if (!ts) return "just now";
+  const ms = ts.toMillis ? ts.toMillis() : ts;
+  const s = Math.floor((Date.now()-ms)/1000);
+  const units=[[31536000,"y"],[2592000,"mo"],[86400,"d"],[3600,"h"],[60,"m"]];
+  for (const [secs,label] of units){ const v=Math.floor(s/secs); if (v>=1) return `${v}${label} ago`; }
+  return "just now";
+}
+const Icons = {
+  close:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>',
+  fire:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 3-2 4-2 7a4 4 0 008 0c1-1 1-2.5.5-4 1.5 1 3.5 3.5 3.5 7a8 8 0 11-16 0c0-4 2-7 6-10z"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>',
+  warn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 8v5M12 16h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>',
+  emptyFolder:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h6l2 2h8v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z"/></svg>',
+  emptyMap:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 6l7-3 8 3 7-3v15l-7 3-8-3-7 3z"/></svg>',
+};
+const Toast = (() => {
+  let stack;
+  function ensure(){ if(!stack){ stack=document.createElement("div"); stack.className="toast-stack"; document.body.appendChild(stack);} return stack; }
+  function show(message, type="success"){
+    const el = ensure();
+    const t = document.createElement("div");
+    t.className = "toast" + (type==="error" ? " error" : "");
+    t.innerHTML = `${type==="error"?Icons.warn:Icons.check}<span>${escapeHTML(message)}</span>`;
+    el.appendChild(t);
+    setTimeout(()=>{ t.classList.add("leaving"); setTimeout(()=>t.remove(),260); }, 2400);
+  }
+  return { show };
+})();
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    const email = user.email || "";
+    userEmailLabel.textContent = email;
+    userAvatar.textContent = (email[0] || "A").toUpperCase();
+    showApp();
+    startLiveListeners();
+  } else {
+    showLogin();
+    stopLiveListeners();
+  }
+});
+
+function showApp(){ loginScreen.style.display="none"; adminApp.classList.add("active"); }
+function showLogin(){ loginScreen.style.display="flex"; adminApp.classList.remove("active"); }
+
+loginForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("loginEmail").value.trim();
+  const pass = document.getElementById("loginPass").value;
+  loginSubmitBtn.disabled = true;
+  loginSubmitBtn.innerHTML = `<span class="spinner"></span> Signing in…`;
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+    loginError.classList.remove("show");
+    loginForm.reset();
+  } catch (err) {
+    console.error(err);
+    loginErrorText.textContent = "Login failed — check your email and password.";
+    loginError.classList.add("show");
+  } finally {
+    loginSubmitBtn.disabled = false;
+    loginSubmitBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg> Sign In`;
+  }
+});
+
+logoutBtn.addEventListener("click", async () => { await signOut(auth); Toast.show("Logged out"); });
+
+function startLiveListeners() {
+  const catsQuery = query(collection(db, "categories"), orderBy("displayOrder", "asc"));
+  unsubCategories = onSnapshot(catsQuery, (snap) => {
+    liveCategories = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    catTabCount.textContent = liveCategories.length;
+    renderCategories();
+    renderDashboard();
+    populateCategorySelect();
+  }, (err) => { console.error(err); Toast.show("Categories me connect nahi ho paya", "error"); });
+
+  const mapsQuery = query(collection(db, "maps"), orderBy("createdAt", "desc"));
+  unsubMaps = onSnapshot(mapsQuery, (snap) => {
+    liveMaps = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    mapTabCount.textContent = liveMaps.length;
+    renderMaps();
+    renderDashboard();
+  }, (err) => { console.error(err); Toast.show("Maps me connect nahi ho paya", "error"); });
+}
+function stopLiveListeners() {
+  if (unsubCategories) unsubCategories();
+  if (unsubMaps) unsubMaps();
+}
+
+function switchTab(panelName) {
+  tabs.forEach(t => t.classList.toggle("active", t.dataset.panel === panelName));
+  document.querySelectorAll(".admin-panel").forEach(p => p.classList.remove("active"));
+  document.getElementById(`panel-${panelName}`).classList.add("active");
+}
+tabs.forEach(tab => tab.addEventListener("click", () => switchTab(tab.dataset.panel)));
+document.querySelectorAll("[data-goto-tab]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    switchTab(btn.dataset.gotoTab);
+    if (btn.hasAttribute("data-open-map")) openMapModal();
+  });
+});
+
+function openModal(m){ m.classList.add("open"); }
+function closeModal(m){ m.classList.remove("open"); }
+document.querySelectorAll("[data-close-modal]").forEach(btn => btn.addEventListener("click", () => closeModal(btn.closest(".modal-overlay"))));
+[categoryModal, mapModal, confirmModal].forEach(m => m.addEventListener("click", e => { if (e.target===m) closeModal(m); }));
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") [categoryModal, mapModal, confirmModal].forEach(m => closeModal(m));
+});
+
+function askConfirm(title, message, onConfirm) {
+  confirmTitle.textContent = title;
+  confirmMessage.textContent = message;
+  openModal(confirmModal);
+  const freshBtn = document.getElementById("confirmActionBtn").cloneNode(true);
+  document.getElementById("confirmActionBtn").replaceWith(freshBtn);
+  freshBtn.addEventListener("click", async () => {
+    freshBtn.disabled = true;
+    freshBtn.innerHTML = `<span class="spinner"></span> Deleting…`;
+    await onConfirm();
+    closeModal(confirmModal);
+  });
+}
+
+function renderDashboard() {
+  const weekAgo = Date.now() - 86400000*7;
+  const newThisWeek = liveMaps.filter(m => m.createdAt && (m.createdAt.toMillis ? m.createdAt.toMillis() : m.createdAt) >= weekAgo).length;
+  statGrid.innerHTML = `
+    <div class="stat-card"><div class="stat-icon ember">${Icons.fire}</div><div class="stat-value">${liveMaps.length}</div><div class="stat-label">Total maps</div></div>
+    <div class="stat-card"><div class="stat-icon cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h6l2 2h8v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z"/></svg></div><div class="stat-value">${liveCategories.length}</div><div class="stat-label">Categories</div></div>
+    <div class="stat-card"><div class="stat-icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg></div><div class="stat-value">${newThisWeek}</div><div class="stat-label">Added this week</div></div>`;
+  const byCat = liveCategories.map(c => ({ name: c.categoryName, count: liveMaps.filter(m => m.category === c.id).length }));
+  const max = Math.max(1, ...byCat.map(c => c.count));
+  breakdownList.innerHTML = byCat.length ? byCat.map(c => `
+    <div class="breakdown-row">
+      <span class="b-label">${escapeHTML(c.name)}</span>
+      <span class="b-track"><span class="b-fill" style="width:${(c.count/max)*100}%"></span></span>
+      <span class="b-count">${c.count}</span>
+    </div>`).join("") : `<p class="empty-mini" style="padding:var(--sp-4);">No categories yet.</p>`;
+}
+
+function renderCategories() {
+  categoryList.innerHTML = liveCategories.length ? liveCategories.map(c => {
+    const count = liveMaps.filter(m => m.category === c.id).length;
+    return `<div class="data-row" data-id="${c.id}">
+      <div class="cat-emoji">${escapeHTML(c.icon || "🗂️")}</div>
+      <div class="row-main">
+        <div class="row-title">${escapeHTML(c.categoryName)}</div>
+        <div class="row-sub"><span>${count} map${count===1?"":"s"}</span><span>· order ${c.displayOrder}</span></div>
+      </div>
+      <div class="row-actions">
+        <button class="icon-btn" data-edit-cat title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg></button>
+        <button class="icon-btn danger" data-delete-cat title="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/></svg></button>
+      </div>
+    </div>`;
+  }).join("") : `<div class="empty-mini">
+      ${Icons.emptyFolder}
+      <div>No categories yet — add your first one.</div>
+      <button class="btn btn-primary btn-sm empty-cta" onclick="document.getElementById('openAddCategory').click()">Add Category</button>
+    </div>`;
+
+  categoryList.querySelectorAll("[data-edit-cat]").forEach(btn => btn.addEventListener("click", () => openCategoryModal(btn.closest(".data-row").dataset.id)));
+  categoryList.querySelectorAll("[data-delete-cat]").forEach(btn => btn.addEventListener("click", () => {
+    const id = btn.closest(".data-row").dataset.id;
+    const cat = liveCategories.find(c => c.id === id);
+    askConfirm("Delete category?", `"${cat.categoryName}" will be removed. Existing maps keep their reference but show as Uncategorized.`, async () => {
+      try { await deleteDoc(doc(db, "categories", id)); Toast.show("Category deleted"); }
+      catch (err) { console.error(err); Toast.show("Delete failed — check Firestore rules", "error"); }
+    });
+  }));
+}
+
+function openCategoryModal(id = null) {
+  categoryForm.reset();
+  document.querySelectorAll("#categoryForm .field").forEach(f => f.classList.remove("invalid"));
+  document.getElementById("categoryId").value = "";
+  if (id) {
+    const cat = liveCategories.find(c => c.id === id);
+    categoryModalTitle.textContent = "Edit Category";
+    document.getElementById("categoryId").value = cat.id;
+    document.getElementById("categoryName").value = cat.categoryName;
+    document.getElementById("categoryIcon").value = cat.icon || "";
+  } else {
+    categoryModalTitle.textContent = "Add Category";
+  }
+  openModal(categoryModal);
+}
+document.getElementById("openAddCategory").addEventListener("click", () => openCategoryModal());
+
+categoryForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const id = document.getElementById("categoryId").value;
+  const nameInput = document.getElementById("categoryName");
+  const name = nameInput.value.trim();
+  const icon = document.getElementById("categoryIcon").value.trim() || "🗂️";
+  if (!name) { nameInput.closest(".field").classList.add("invalid"); return; }
+  nameInput.closest(".field").classList.remove("invalid");
+
+  categorySaveBtn.disabled = true;
+  categorySaveBtn.innerHTML = `<span class="spinner"></span> Saving…`;
+  try {
+    if (id) {
+      await updateDoc(doc(db, "categories", id), { categoryName: name, icon });
+      Toast.show("Category updated");
+    } else {
+      const displayOrder = liveCategories.length ? Math.max(...liveCategories.map(c => c.displayOrder || 0)) + 1 : 1;
+      await addDoc(collection(db, "categories"), { categoryName: name, icon, displayOrder });
+      Toast.show("Category published");
+    }
+    closeModal(categoryModal);
+  } catch (err) {
+    console.error(err);
+    Toast.show("Save failed — check Firestore rules / login", "error");
+  } finally {
+    categorySaveBtn.disabled = false;
+    categorySaveBtn.textContent = "Save Category";
+  }
+});
+
+function populateCategorySelect(selectedId = null) {
+  const sel = document.getElementById("mapCategory");
+  sel.innerHTML = liveCategories.length
+    ? liveCategories.map(c => `<option value="${c.id}" ${c.id===selectedId?"selected":""}>${escapeHTML(c.icon||"")} ${escapeHTML(c.categoryName)}</option>`).join("")
+    : `<option value="">No categories yet — add one first</option>`;
+}
+
+function renderMaps() {
+  const term = adminMapTerm.trim().toLowerCase();
+  const maps = liveMaps.filter(m => {
+    if (!term) return true;
+    const cat = liveCategories.find(c => c.id === m.category);
+    return [m.title, m.description, m.mapCode, cat ? cat.categoryName : ""].join(" ").toLowerCase().includes(term);
+  });
+  mapList.innerHTML = maps.length ? maps.map(m => {
+    const cat = liveCategories.find(c => c.id === m.category);
+    return `<div class="data-row" data-id="${m.id}">
+      <img class="thumb" src="${escapeHTML((m.images && m.images[0]) || "")}" alt="${escapeHTML(m.title)}" loading="lazy" onerror="this.style.opacity=0.25">
+      <div class="row-main">
+        <div class="row-title">${escapeHTML(m.title)}</div>
+        <div class="row-sub">
+          <span>${escapeHTML(cat ? cat.categoryName : "Uncategorized")}</span>
+          <span>· <code>${escapeHTML(m.mapCode)}</code></span>
+          <span>· ${(m.images||[]).length} img${(m.images||[]).length===1?"":"s"}</span>
+          <span>· ${timeAgo(m.updatedAt)}</span>
+        </div>
+      </div>
+      <div class="row-actions">
+        <button class="icon-btn" data-edit-map title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg></button>
+        <button class="icon-btn danger" data-delete-map title="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/></svg></button>
+      </div>
+    </div>`;
+  }).join("") : `<div class="empty-mini">
+      ${Icons.emptyMap}
+      <div>No maps match yet.</div>
+      <button class="btn btn-primary btn-sm empty-cta" onclick="document.getElementById('openAddMap').click()">Add Map</button>
+    </div>`;
+
+  mapList.querySelectorAll("[data-edit-map]").forEach(btn => btn.addEventListener("click", () => openMapModal(btn.closest(".data-row").dataset.id)));
+  mapList.querySelectorAll("[data-delete-map]").forEach(btn => btn.addEventListener("click", () => {
+    const id = btn.closest(".data-row").dataset.id;
+    const map = liveMaps.find(m => m.id === id);
+    askConfirm("Delete map?", `"${map.title}" will be permanently removed from the library.`, async () => {
+      try { await deleteDoc(doc(db, "maps", id)); Toast.show("Map deleted"); }
+      catch (err) { console.error(err); Toast.show("Delete failed — check Firestore rules", "error"); }
+    });
+  }));
+}
+
+mapSearchAdmin.addEventListener("input", debounce(() => { adminMapTerm = mapSearchAdmin.value; renderMaps(); }, 200));
+mapDescription.addEventListener("input", () => { descCharCount.textContent = mapDescription.value.length; });
+
+function renderImagePreviews() {
+  imagePreviewGrid.innerHTML = pendingImageUrls.map((url, i) => `
+    <div class="image-preview">
+      <img src="${escapeHTML(url)}" alt="Preview ${i+1}" onerror="this.parentElement.classList.add('broken')">
+      ${i === 0 ? '<span class="cover-badge">Cover</span>' : ""}
+      <button type="button" class="remove-img" data-remove-img="${i}">${Icons.close}</button>
+    </div>`).join("");
+  imagePreviewGrid.querySelectorAll("[data-remove-img]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      pendingImageUrls.splice(Number(btn.dataset.removeImg), 1);
+      renderImagePreviews();
+    });
+  });
+}
+
+function addImageUrl() {
+  const url = mapImageUrlInput.value.trim();
+  if (!url) return;
+  try { new URL(url); } catch (e) { Toast.show("Yeh ek valid URL nahi lag raha", "error"); return; }
+  pendingImageUrls.push(url);
+  mapImageUrlInput.value = "";
+  mapImagesError.parentElement.classList.remove("invalid");
+  renderImagePreviews();
+  mapImageUrlInput.focus();
+}
+addImageUrlBtn.addEventListener("click", addImageUrl);
+mapImageUrlInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") { e.preventDefault(); addImageUrl(); }
+});
+
+function openMapModal(id = null) {
+  mapForm.reset();
+  document.querySelectorAll("#mapForm .field").forEach(f => f.classList.remove("invalid"));
+  pendingImageUrls = [];
+  document.getElementById("mapId").value = "";
+  descCharCount.textContent = "0";
+  populateCategorySelect();
+  if (id) {
+    const map = liveMaps.find(m => m.id === id);
+    mapModalTitle.textContent = "Edit Craftland Map";
+    document.getElementById("mapId").value = map.id;
+    document.getElementById("mapTitle").value = map.title;
+    document.getElementById("mapDescription").value = map.description;
+    descCharCount.textContent = (map.description || "").length;
+    document.getElementById("mapCode").value = map.mapCode;
+    populateCategorySelect(map.category);
+    pendingImageUrls = [...(map.images || [])];
+  } else {
+    mapModalTitle.textContent = "Add Craftland Map";
+  }
+  renderImagePreviews();
+  openModal(mapModal);
+}
+document.getElementById("openAddMap").addEventListener("click", () => {
+  if (!liveCategories.length) { Toast.show("Add a category first", "error"); return; }
+  openMapModal();
+});
+
+mapForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const id = document.getElementById("mapId").value;
+  const title = document.getElementById("mapTitle").value.trim();
+  const description = document.getElementById("mapDescription").value.trim();
+  const category = document.getElementById("mapCategory").value;
+  const mapCode = document.getElementById("mapCode").value.trim();
+
+  let valid = true;
+  [["mapTitle",title], ["mapDescription",description], ["mapCode",mapCode]].forEach(([fid,val]) => {
+    const field = document.getElementById(fid).closest(".field");
+    field.classList.toggle("invalid", !val);
+    if (!val) valid = false;
+  });
+  const imagesField = mapImagesError.parentElement;
+  if (!pendingImageUrls.length) { imagesField.classList.add("invalid"); valid = false; }
+  else { imagesField.classList.remove("invalid"); }
+  if (!valid) return;
+
+  const payload = {
+    title, description, category, mapCode,
+    images: pendingImageUrls,
+    updatedAt: serverTimestamp(),
+  };
+
+  mapSaveBtn.disabled = true;
+  mapSaveBtn.innerHTML = `<span class="spinner"></span> Publishing…`;
+  try {
+    if (id) {
+      await updateDoc(doc(db, "maps", id), payload);
+      Toast.show("Map updated");
+    } else {
+      await addDoc(collection(db, "maps"), { ...payload, createdAt: serverTimestamp() });
+      Toast.show("Map published");
+    }
+    closeModal(mapModal);
+  } catch (err) {
+    console.error(err);
+    Toast.show("Publish failed — check Firestore rules / login", "error");
+  } finally {
+    mapSaveBtn.disabled = false;
+    mapSaveBtn.textContent = "Publish Map";
+  }
+});
+</script>
+</body>
+</html>
