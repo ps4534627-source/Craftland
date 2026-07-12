@@ -51,8 +51,9 @@ a { color: inherit; text-decoration: none; }
 .site-header { position: fixed; top:0; left:0; right:0; z-index:100; height: var(--header-h); display:flex; align-items:center; background: rgba(16,20,28,.6); backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%); border-bottom: 1px solid var(--glass-border); }
 .site-header .container { display:flex; align-items:center; justify-content:space-between; width:100%; }
 .brand { display:flex; align-items:center; gap: var(--sp-3); }
-.brand-mark { width:38px; height:38px; border-radius: var(--r-sm); background: var(--grad-ember); display:flex; align-items:center; justify-content:center; box-shadow: var(--shadow-ember-glow); flex-shrink:0; }
+.brand-mark { width:38px; height:38px; border-radius: var(--r-sm); background: var(--grad-ember); display:flex; align-items:center; justify-content:center; box-shadow: var(--shadow-ember-glow); flex-shrink:0; overflow:hidden; }
 .brand-mark svg { width:20px; height:20px; }
+.brand-mark img { width:100%; height:100%; object-fit:cover; }
 .brand-text { display:flex; flex-direction:column; line-height:1.15; }
 .brand-name { font-family: var(--font-display); font-weight:600; font-size: var(--fs-md); letter-spacing:.02em; }
 .brand-tag { font-size:10px; color: var(--text-low); letter-spacing:.12em; text-transform:uppercase; }
@@ -172,8 +173,9 @@ a { color: inherit; text-decoration: none; }
 <header class="site-header">
   <div class="container">
     <a href="#top" class="brand">
-      <span class="brand-mark">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#160702" stroke-width="2.2"><path d="M12 2l2.5 6.5L21 9l-5 4.5L17.5 21 12 17l-5.5 4L8 13.5 3 9l6.5-.5z"/></svg>
+      <span class="brand-mark" id="brandMark">
+        <!-- Apna logo "logo.png" naam se isi folder me (index.html ke saath) GitHub par upload karein — yeh yahan automatically dikhega. Agar logo.png nahi milta to default flame icon dikh jaata hai. -->
+        <img src="logo.png" alt="Craftland Map Library logo" onerror="document.getElementById('brandMark').innerHTML='&lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;#160702&quot; stroke-width=&quot;2.2&quot;&gt;&lt;path d=&quot;M12 2l2.5 6.5L21 9l-5 4.5L17.5 21 12 17l-5.5 4L8 13.5 3 9l6.5-.5z&quot;/&gt;&lt;/svg&gt;'">
       </span>
       <span class="brand-text">
         <span class="brand-name">Craftland<span style="color:var(--ember)">Lib</span></span>
@@ -234,15 +236,13 @@ a { color: inherit; text-decoration: none; }
    (Firebase Console → Project settings → General → Your apps → SDK setup and configuration).
    Yehi config admin.html me bhi bilkul same paste karna hai.
    ============================================================ */
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyApUY67MvZBh6y9ZCHgcNYC1lUMx-dG57w",
-  authDomain: "craftland-3a36f.firebaseapp.com",
-  projectId: "craftland-3a36f",
-  storageBucket: "craftland-3a36f.firebasestorage.app",
-  messagingSenderId: "356876524394",
-  appId: "1:356876524394:web:e88a7bda3bb8c82792e313",
-  measurementId: "G-D7B0S4C2R1"
+  apiKey: "PASTE_YOUR_API_KEY",
+  authDomain: "PASTE_YOUR_PROJECT.firebaseapp.com",
+  projectId: "PASTE_YOUR_PROJECT_ID",
+  storageBucket: "PASTE_YOUR_PROJECT.appspot.com",
+  messagingSenderId: "PASTE_YOUR_SENDER_ID",
+  appId: "PASTE_YOUR_APP_ID"
 };
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
